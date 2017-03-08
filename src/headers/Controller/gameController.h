@@ -26,8 +26,8 @@ class GameController {
 
 		Map* map;
 		Camera* camera;
-		Army *hjmu;
-		Army *mecha;
+		Army *playerArmy;
+		Army *aiArmy;
 
 		sf::Sprite titleScreen;
 };

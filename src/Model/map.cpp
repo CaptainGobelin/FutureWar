@@ -54,12 +54,6 @@ void Map::hovered(Point2D p) {
 }
 
 void Map::generateMovingMask(Unit *unit, int x, int y) {
-	int offsets[4][2] = {
-		{0, 0},
-		{1, 0},
-		{1, 1},
-		{0, 1}
-	};
 	int maskSize = 1;
 	for (int k=1;k<=unit->getSpeed();k++)
 		maskSize += 4*k;
@@ -67,26 +61,22 @@ void Map::generateMovingMask(Unit *unit, int x, int y) {
 	ComplexShape *mask = new ComplexShape(new sf::VertexArray(sf::Quads, maskSize), &Textures::texturesMap);
 	int count = 0;
 	for (int i=-unit->getSpeed();i<=unit->getSpeed();i++)
-		for (int j=-(unit->getSpeed()-abs(i));j<=(unit->getSpeed()-abs(i));j++) 
-			for (int k=0;k<4;k++) {
-				int xPos = (x+i+offsets[k][0])*CELL_SIZE + screenPosition.x;
-				int yPos = (y+j+offsets[k][1])*CELL_SIZE + screenPosition.y;
-				(*mask->vertices)[count].position = sf::Vector2f(xPos, yPos);
-				if (isInLimits(Point2D(x+i, y+j))) {
-					if (!rows[x+i][y+j].getValue()) {
-						sf::Vector2f texCoord(offsets[k][0]*CELL_SIZE, (1+offsets[k][1])*CELL_SIZE);
-						(*mask->vertices)[count].texCoords = texCoord;
-						(*mask->vertices)[count].color = sf::Color(255,255,255,100);
-					} else {
-						sf::Vector2f texCoord((1+offsets[k][0])*CELL_SIZE, (1+offsets[k][1])*CELL_SIZE);
-						(*mask->vertices)[count].texCoords = texCoord;
-						(*mask->vertices)[count].color = sf::Color(255,255,255,100);
-					}
+		for (int j=-(unit->getSpeed()-abs(i));j<=(unit->getSpeed()-abs(i));j++) {
+			int tileOffset = 0;
+			if (isInLimits(Point2D(x+i, y+j))) {
+				if (rows[x+i][y+j].getValue()) {
+					tileOffset = CELL_SIZE;
 				}
-				else
-					(*mask->vertices)[count].position = sf::Vector2f(0, 0);
-				count++;
+				for (int k=0;k<4;k++)
+					(*mask->vertices)[count+k].color = sf::Color(255,255,255,100);
+			} else {
+				for (int k=0;k<4;k++)
+					(*mask->vertices)[count+k].color = sf::Color(255,255,255,0);
 			}
+			int data[5] = {count, x+i, y+j, tileOffset, CELL_SIZE};
+			mask->constructQuad(data, screenPosition);
+			count += 4;
+		}
 	Drawable::addRender(mask, SUB_UNIT_LAYER, true);
 }
 
@@ -105,6 +95,8 @@ void Map::basicMap() {
 		rows[0][j].setValue(true);
 		rows[width-1][j].setValue(true);
 	}
+	rows[2][1].setValue(true);
+	rows[width-3][height-2].setValue(true);
 }
 
 bool Map::canGo(Unit u, Point2D p) {
@@ -119,22 +111,15 @@ bool Map::canGo(Unit u, Point2D p) {
 }
 
 void Map::constructSprite() {
-	int offsets[4][2] = {
-		{0, 0},
-		{1, 0},
-		{1, 1},
-		{0, 1}
-	};
 	mapSprite = new ComplexShape(new sf::VertexArray(sf::Quads, width*height*4), &Textures::texturesMap);
+	int count = 0;
 	for (int i=0;i<width;i++)
-		for (int j=0;j<height;j++) 
-			for (int k=0;k<4;k++) {
-				sf::Vector2f vertexPos((i+offsets[k][0])*CELL_SIZE, (j+offsets[k][1])*CELL_SIZE);
-				(*mapSprite->vertices)[(i*4)+j*(width*4)+k].position = vertexPos;
-				int tileOffset = 0;
-				if (rows[i][j].getValue())
-					tileOffset = CELL_SIZE;
-				sf::Vector2f texCoord(offsets[k][0]*CELL_SIZE+tileOffset, offsets[k][1]*CELL_SIZE);
-				(*mapSprite->vertices)[(i*4)+j*(width*4)+k].texCoords = texCoord;
-			}
+		for (int j=0;j<height;j++) {
+			int tileOffset = 0;
+			if (rows[i][j].getValue())
+				tileOffset = CELL_SIZE;
+			int data[5] = {count, i, j, tileOffset, 0};
+			mapSprite->constructQuad(data, sf::Vector2f(0,0));
+			count += 4;
+		}
 }

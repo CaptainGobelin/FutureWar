@@ -10,8 +10,8 @@ GameController::GameController() {
 
 	this->camera = new Camera();
 	this->map = new Map(10, 10);
-	this->hjmu = new Army(fedsArmyList);
-	this->mecha = new Army(mechsArmyList);
+	this->playerArmy = new Army(fedsArmyList);
+	this->aiArmy = new Army(mechsArmyList);
 }
 
 void GameController::launch() {
@@ -35,13 +35,13 @@ void GameController::launch() {
 }
 
 void GameController::gameLoop() {
-	for (int i=0;i<hjmu->units.size();i++) {
-		map->rows[1][1+i].setUnit(hjmu->units[i]);
+	for (int i=0;i<playerArmy->units.size();i++) {
+		map->rows[1][1+i].setUnit(playerArmy->units[i]);
 	}
-	for (int i=0;i<mecha->units.size();i++) {
-		map->rows[map->getWidth()-2][map->getHeight()-2-i].setUnit(mecha->units[i]);
-		mecha->units[i]->sprite->setOrigin(CELL_SIZE, 0);
-		mecha->units[i]->sprite->setScale(-1.f, 1.f);
+	for (int i=0;i<aiArmy->units.size();i++) {
+		map->rows[map->getWidth()-2][map->getHeight()-2-i].setUnit(aiArmy->units[i]);
+		aiArmy->units[i]->sprite->setOrigin(CELL_SIZE, 0);
+		aiArmy->units[i]->sprite->setScale(-1.f, 1.f);
 	}
 	int choice = INIT_CHOICE;
 	sf::Event event;
@@ -74,19 +74,9 @@ void GameController::hoverEvent() {
 
 void GameController::render() {
 	GameWindow::window.clear();
-	renderMap();
 	map->render(camera);
+	playerArmy->render(camera);
+	aiArmy->render(camera);
 	Drawable::renderAll();
 	GameWindow::window.display();
-}
-
-void GameController::renderMap() {
-	for (int i=0;i<map->getWidth();i++)
-		for (int j=0;j<map->getHeight();j++) {
-			sf::Vector2f position(i*CELL_SIZE + camera->getPosition().getX(), j*CELL_SIZE + camera->getPosition().getY());
-			sf::Vector2f size(CELL_SIZE, CELL_SIZE);
-			if (map->getCell(i, j).unit != NULL) {
-				map->getCell(i, j).unit->render(camera);
-			}
-		}
 }

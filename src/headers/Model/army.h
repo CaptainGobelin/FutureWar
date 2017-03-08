@@ -14,6 +14,8 @@ class Army {
 
 		void armyFactory(const int armyList[][3]);
 
+		void render(Camera *camera);
+
 		std::vector<Unit*> units;
 		
 	private:

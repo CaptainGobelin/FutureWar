@@ -17,3 +17,9 @@ void Army::armyFactory(const int armyList[][3]) {
 		units.push_back(unit);
 	}
 }
+
+void Army::render(Camera *camera) {
+	for (unsigned int i=0;i<units.size();i++) {
+		units[i]->render(camera);
+	}
+}
