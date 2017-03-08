@@ -10,7 +10,7 @@ class ComplexShape : public sf::Drawable, public sf::Transformable {
 		ComplexShape(sf::VertexArray *vertices, sf::Texture *texture);
 
 		//data= {index, x, y, tileOffsetX, tileOffsetY}
-		void constructQuad(int data[5], sf::Vector2f cameraOffset);
+		void constructQuad(int data[5], sf::Vector2f cameraOffset, sf::Color color);
 
 		sf::VertexArray *vertices;
 		sf::Texture *texture;

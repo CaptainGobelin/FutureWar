@@ -5,7 +5,7 @@ ComplexShape::ComplexShape(sf::VertexArray *vertices, sf::Texture *texture) {
     this->texture = texture;
 }
 
-void ComplexShape::constructQuad(int data[5], sf::Vector2f cameraOffset) {
+void ComplexShape::constructQuad(int data[5], sf::Vector2f cameraOffset, sf::Color color) {
 	int offsets[4][2] = {
 		{0, 0},
 		{1, 0},
@@ -19,5 +19,6 @@ void ComplexShape::constructQuad(int data[5], sf::Vector2f cameraOffset) {
 		int xTex = offsets[k][0]*CELL_SIZE+data[3];
 		int yTex = offsets[k][1]*CELL_SIZE+data[4];
 		(*this->vertices)[data[0]+k].texCoords = sf::Vector2f(xTex, yTex);
+		(*this->vertices)[data[0]+k].color = color;
 	}
 }

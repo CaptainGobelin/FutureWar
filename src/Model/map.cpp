@@ -63,18 +63,15 @@ void Map::generateMovingMask(Unit *unit, int x, int y) {
 	for (int i=-unit->getSpeed();i<=unit->getSpeed();i++)
 		for (int j=-(unit->getSpeed()-abs(i));j<=(unit->getSpeed()-abs(i));j++) {
 			int tileOffset = 0;
+			sf::Color color(255, 255, 255, 0);
 			if (isInLimits(Point2D(x+i, y+j))) {
 				if (rows[x+i][y+j].getValue()) {
 					tileOffset = CELL_SIZE;
 				}
-				for (int k=0;k<4;k++)
-					(*mask->vertices)[count+k].color = sf::Color(255,255,255,100);
-			} else {
-				for (int k=0;k<4;k++)
-					(*mask->vertices)[count+k].color = sf::Color(255,255,255,0);
+				color = sf::Color(255,255,255,100);
 			}
 			int data[5] = {count, x+i, y+j, tileOffset, CELL_SIZE};
-			mask->constructQuad(data, screenPosition);
+			mask->constructQuad(data, screenPosition, color);
 			count += 4;
 		}
 	Drawable::addRender(mask, SUB_UNIT_LAYER, true);
@@ -119,7 +116,7 @@ void Map::constructSprite() {
 			if (rows[i][j].getValue())
 				tileOffset = CELL_SIZE;
 			int data[5] = {count, i, j, tileOffset, 0};
-			mapSprite->constructQuad(data, sf::Vector2f(0,0));
+			mapSprite->constructQuad(data, sf::Vector2f(0,0), sf::Color(255, 255, 255, 255));
 			count += 4;
 		}
 }
