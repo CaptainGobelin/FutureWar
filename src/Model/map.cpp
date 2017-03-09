@@ -4,12 +4,13 @@ Map::Map(int w/*=5*/, int h/*=5*/) : Hoverable(BACKGROUND_LAYER, true) {
 	this->width = w;
 	this->height = h;
 
-	rows = new Cell* [width];
+	cells = new Cell* [width];
 	for (int i=0;i<width;i++) {
-		rows[i] = new Cell[height];
+		cells[i] = new Cell[height];
 		for (int j=0;j<height;j++) {
-			rows[i][j].setValue(false);
-			rows[i][j].setPosition(Point2D(i,j));
+			cells[i][j] = Cell(this);
+			cells[i][j].setValue(false);
+			cells[i][j].setPosition(Point2D(i,j));
 		}
 	}
 	selectedUnit = NULL;
@@ -21,16 +22,16 @@ Map::Map(int w/*=5*/, int h/*=5*/) : Hoverable(BACKGROUND_LAYER, true) {
 
 Map::~Map() {
 	for (int i = 0; i < this->width; i++)
-		delete [] this->rows[i];
-	delete [] this->rows;
+		delete [] this->cells[i];
+	delete [] this->cells;
 }
 
 Cell Map::getCell(int x, int y) {
-	return rows[x][y];
+	return cells[x][y];
 }
 
 Cell Map::getCell(Point2D p) {
-	return rows[(int)p.getX()][(int)p.getY()];
+	return cells[(int)p.getX()][(int)p.getY()];
 }
 
 bool Map::isInLimits(Point2D p) {
@@ -45,12 +46,12 @@ bool Map::isInLimits(Point2D p) {
 	return true;
 }
 
-void Map::hovered(Point2D p) {
+void Map::hoverEvent(Point2D p) {
 	int xPos = (int)(p.getX()-screenPosition.x/CELL_SIZE);
 	int yPos = (int)(p.getY()-screenPosition.y/CELL_SIZE);
-	rows[xPos][yPos].hovered(screenPosition);
-	if (rows[xPos][yPos].unit != NULL && selectedUnit == NULL) {
-		generateMovingMask(rows[xPos][yPos].unit, xPos, yPos);
+	cells[xPos][yPos].hoverEvent();
+	if (cells[xPos][yPos].unit != NULL && selectedUnit == NULL) {
+		generateMovingMask(cells[xPos][yPos].unit, xPos, yPos);
 	}
 }
 
@@ -66,7 +67,7 @@ void Map::generateMovingMask(Unit *unit, int x, int y) {
 			int tileOffset = 0;
 			sf::Color color(255, 255, 255, 0);
 			if (isInLimits(Point2D(x+i, y+j))) {
-				if (rows[x+i][y+j].getValue()) {
+				if (cells[x+i][y+j].getValue()) {
 					tileOffset = CELL_SIZE;
 				}
 				color = sf::Color(255,255,255,100);
@@ -78,20 +79,17 @@ void Map::generateMovingMask(Unit *unit, int x, int y) {
 	Drawable::addRender(mask, SUB_UNIT_LAYER, true);
 }
 
-void Map::selectUnit(sf::Vector2i cursor) {
-	Point2D p = Point2D::divide(Point2D(cursor), CELL_SIZE);
-	int x = (int)(p.getX()-screenPosition.x/CELL_SIZE);
-	int y = (int)(p.getY()-screenPosition.y/CELL_SIZE);
+void Map::leftClickEvent(Point2D cursor) {
+	cursor.divide(CELL_SIZE);
+	int x = (int)(cursor.getX()-screenPosition.x/CELL_SIZE);
+	int y = (int)(cursor.getY()-screenPosition.y/CELL_SIZE);
 	if (selectedUnit == NULL) {
-		if (rows[x][y].unit != NULL) {
-			rows[x][y].unit->setSelected(true);
-			selectedUnit = rows[x][y].unit;
+		if (cells[x][y].unit != NULL) {
+			selectUnit(cells[x][y].unit);
 		}
 	} else {
-		if (rows[x][y].unit != NULL) {
-			selectedUnit->setSelected(false);
-			rows[x][y].unit->setSelected(true);
-			selectedUnit = rows[x][y].unit;
+		if (cells[x][y].unit != NULL) {
+			selectUnit(cells[x][y].unit);
 		} else {
 			selectedUnit->setSelected(false);
 			selectedUnit = NULL;
@@ -109,15 +107,15 @@ void Map::render(Camera *camera) {
 
 void Map::basicMap() {
 	for (int i=0;i<width;i++) {
-		rows[i][0].setValue(true);
-		rows[i][height-1].setValue(true);
+		cells[i][0].setValue(true);
+		cells[i][height-1].setValue(true);
 	}
 	for (int j=0;j<height;j++) {
-		rows[0][j].setValue(true);
-		rows[width-1][j].setValue(true);
+		cells[0][j].setValue(true);
+		cells[width-1][j].setValue(true);
 	}
-	rows[2][1].setValue(true);
-	rows[width-3][height-2].setValue(true);
+	cells[2][1].setValue(true);
+	cells[width-3][height-2].setValue(true);
 }
 
 bool Map::canGo(Unit u, Point2D p) {
@@ -126,7 +124,7 @@ bool Map::canGo(Unit u, Point2D p) {
 	Point2D unitPos(u.getPosition());
 	if (unitPos.dist(p) > u.getSpeed())
 		return false;
-	if (rows[(int)p.getX()][(int)p.getY()].getValue())
+	if (cells[(int)p.getX()][(int)p.getY()].getValue())
 		return false;
 	return true;
 }
@@ -137,10 +135,17 @@ void Map::constructSprite() {
 	for (int i=0;i<width;i++)
 		for (int j=0;j<height;j++) {
 			int tileOffset = 0;
-			if (rows[i][j].getValue())
+			if (cells[i][j].getValue())
 				tileOffset = CELL_SIZE;
 			int data[5] = {count, i, j, tileOffset, 0};
 			mapSprite->constructQuad(data, sf::Vector2f(0,0), sf::Color(255, 255, 255, 255));
 			count += 4;
 		}
+}
+
+void Map::selectUnit(Unit *unit) {
+	if (selectedUnit != NULL)
+		selectedUnit->setSelected(false);
+	selectedUnit = unit;
+	selectedUnit->setSelected(true);
 }

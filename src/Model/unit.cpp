@@ -33,4 +33,6 @@ void Unit::render(Camera *camera) {
 	addRender(sprite, false);
 }
 
-void Unit::hovered(Point2D p) {}
+void Unit::hoverEvent(Point2D p) {}
+
+void Unit::leftClickEvent(Point2D p) {}

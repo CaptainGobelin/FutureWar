@@ -14,7 +14,8 @@ class Hoverable : public Drawable {
 		const bool &isHover() const {return hover;}
 		void setHover(bool hover) {this->hover = hover;}
 
-		virtual void hovered(Point2D p) = 0;
+		virtual void hoverEvent(Point2D p = Point2D(0,0)) = 0;
+		virtual void leftClickEvent(Point2D p = Point2D(0,0)) = 0;
 
 		static std::list<Hoverable*> hoverableElements;
 		static void refreshHoverStates();

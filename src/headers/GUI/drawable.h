@@ -17,7 +17,9 @@ class Drawable {
 		~Drawable();
 
 		const int &getLayer() const {return layer;}
+		const sf::Vector2f getScreenPosition() const {return screenPosition;}
 		void setScreenPosition(sf::Vector2f screenPosition) {this->screenPosition = screenPosition;}
+		const sf::Vector2f getGraphicSize() const {return graphicSize;}
 		void setGraphicSize(sf::Vector2f graphicSize) {this->graphicSize = graphicSize;}
 
 		void addRender();

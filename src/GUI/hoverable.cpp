@@ -30,7 +30,7 @@ void Hoverable::checkHoverEvents(sf::Vector2i cursor) {
 	for (it=hoverableElements.begin(); it!=hoverableElements.end(); ++it) {
 		if ((*it)->isInLimits(cursor)) {
 			(*it)->hover = true;
-			(*it)->hovered(Point2D::divide(Point2D(cursor), CELL_SIZE));
+			(*it)->hoverEvent(Point2D::divide(Point2D(cursor), CELL_SIZE));
 			if ((*it)->stopRay)
 				return;
 		}

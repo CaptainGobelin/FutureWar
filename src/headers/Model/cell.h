@@ -5,19 +5,21 @@
 #include "../include/lib.h"
 
 #include "unit.h"
-#include "../GUI/hoverable.h"
+#include "../GUI/hoverableComponent.h"
 #include "../utils/camera.h"
 
-class Cell {
+class Cell : public HoverableComponent {
 	public:
 		Cell();
+		Cell(Hoverable* parent);
 
 		const bool &getValue() const {return value;}
 		void setValue(bool value) {this->value = value;}
 		void setUnit(Unit* unit) {this->unit = unit;unit->setPosition(position);}
 		void setPosition(Point2D position) {this->position = position;}
 
-		void hovered(sf::Vector2f cameraOffset);
+		virtual void hoverEvent();
+		virtual void leftClickEvent();
 
 		Unit* unit;
 		

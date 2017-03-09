@@ -20,11 +20,11 @@ class Map : public Hoverable {
 		Cell getCell(Point2D p);
 		bool isInLimits(Point2D p);
 		void render(Camera *camera);
-		virtual void hovered(Point2D p);
+		virtual void hoverEvent(Point2D p);
+		virtual void leftClickEvent(Point2D p);
 		void generateMovingMask(Unit *unit, int x, int y);
-		void selectUnit(sf::Vector2i cursor);
 
-		Cell** rows;
+		Cell** cells;
 		Unit* selectedUnit;
 		void basicMap();
 		bool canGo(Unit u, Point2D p);
@@ -35,6 +35,7 @@ class Map : public Hoverable {
 		ComplexShape *mapSprite;
 
 		void constructSprite();
+		void selectUnit(Unit *unit);
 };
 
 #endif

@@ -36,10 +36,10 @@ void GameController::launch() {
 
 void GameController::gameLoop() {
 	for (int i=0;i<playerArmy->units.size();i++) {
-		map->rows[1][1+i].setUnit(playerArmy->units[i]);
+		map->cells[1][1+i].setUnit(playerArmy->units[i]);
 	}
 	for (int i=0;i<aiArmy->units.size();i++) {
-		map->rows[map->getWidth()-2][map->getHeight()-2-i].setUnit(aiArmy->units[i]);
+		map->cells[map->getWidth()-2][map->getHeight()-2-i].setUnit(aiArmy->units[i]);
 		aiArmy->units[i]->sprite->setOrigin(CELL_SIZE, 0);
 		aiArmy->units[i]->sprite->setScale(-1.f, 1.f);
 	}
@@ -63,7 +63,7 @@ void GameController::gameLoop() {
 		} else if (choice == LEFT_CLICK_INPUT) {
 			sf::Vector2i mousePosition(sf::Mouse::getPosition(GameWindow::window));
 			if (map->isHover())
-				map->selectUnit(mousePosition);
+				map->leftClickEvent(Point2D(mousePosition));
 		}
 		else if (choice == CLOSE_INPUT) {
 			return;

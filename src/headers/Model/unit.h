@@ -21,7 +21,8 @@ class Unit : public Hoverable {
 		void setPosition(Point2D position) {this->position = position;}
 
 		void render(Camera *camera);
-		virtual void hovered(Point2D p);
+		virtual void hoverEvent(Point2D p);
+		virtual void leftClickEvent(Point2D p);
 
 		sf::Sprite *sprite;
 		
