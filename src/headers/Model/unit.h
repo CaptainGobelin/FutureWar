@@ -9,6 +9,9 @@
 #include "../GUI/hoverable.h"
 #include "../utils/point2D.h"
 
+class Cell;
+class Map;
+
 class Unit : public Hoverable {
 	public:
 		Unit(const int *unitInfo, int armyTextureOffset);
@@ -25,6 +28,7 @@ class Unit : public Hoverable {
 		virtual void leftClickEvent(Point2D p);
 
 		sf::Sprite *sprite;
+		std::list<Cell*> moveReach;
 		
 	private:
 		bool selected;

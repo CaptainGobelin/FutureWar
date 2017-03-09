@@ -38,10 +38,14 @@ void GameController::gameLoop() {
 	for (int i=0;i<playerArmy->units.size();i++) {
 		map->cells[1][1+i].setUnit(playerArmy->units[i]);
 	}
+	for (int i=0;i<playerArmy->units.size();i++) {
+		map->generateMoveList(playerArmy->units[i]);
+	}
 	for (int i=0;i<aiArmy->units.size();i++) {
 		map->cells[map->getWidth()-2][map->getHeight()-2-i].setUnit(aiArmy->units[i]);
 		aiArmy->units[i]->sprite->setOrigin(CELL_SIZE, 0);
 		aiArmy->units[i]->sprite->setScale(-1.f, 1.f);
+		map->generateMoveList(aiArmy->units[i]);
 	}
 	int choice = INIT_CHOICE;
 	sf::Event event;

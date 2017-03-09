@@ -2,6 +2,7 @@
 
 Unit::Unit(const int *unitInfo, int armyTextureOffset) : Hoverable(UNITS_LAYER, false) {
 	this->selected = false;
+	moveReach.clear();
 	sprite = new sf::Sprite();
 	sf::Vector2f size(CELL_SIZE, CELL_SIZE);
 	setGraphicSize(size);

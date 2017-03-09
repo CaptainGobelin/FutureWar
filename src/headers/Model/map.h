@@ -22,7 +22,8 @@ class Map : public Hoverable {
 		void render(Camera *camera);
 		virtual void hoverEvent(Point2D p);
 		virtual void leftClickEvent(Point2D p);
-		void generateMovingMask(Unit *unit, int x, int y);
+		void generateMoveList(Unit *unit);
+		void generateMovingMask(Unit *unit);
 
 		Cell** cells;
 		Unit* selectedUnit;

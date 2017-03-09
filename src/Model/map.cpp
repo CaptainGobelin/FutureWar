@@ -51,31 +51,44 @@ void Map::hoverEvent(Point2D p) {
 	int yPos = (int)(p.getY()-screenPosition.y/CELL_SIZE);
 	cells[xPos][yPos].hoverEvent();
 	if (cells[xPos][yPos].unit != NULL && selectedUnit == NULL) {
-		generateMovingMask(cells[xPos][yPos].unit, xPos, yPos);
+		generateMovingMask(cells[xPos][yPos].unit);
 	}
 }
 
-void Map::generateMovingMask(Unit *unit, int x, int y) {
+void Map::generateMoveList(Unit *unit) {
+	unit->moveReach.clear();
+	int x = unit->getPosition().getX();
+	int y = unit->getPosition().getY();
+	for (int i=-unit->getSpeed();i<=unit->getSpeed();i++)
+		for (int j=-(unit->getSpeed()-abs(i));j<=(unit->getSpeed()-abs(i));j++) {
+			if (isInLimits(Point2D(x+i, y+j)))
+				unit->moveReach.push_back(&cells[x+i][y+j]);
+	}
+}
+
+void Map::generateMovingMask(Unit *unit) {
 	int maskSize = 1;
 	for (int k=1;k<=unit->getSpeed();k++)
 		maskSize += 4*k;
 	maskSize *= 4;
 	ComplexShape *mask = new ComplexShape(new sf::VertexArray(sf::Quads, maskSize), &Textures::texturesMap);
 	int count = 0;
-	for (int i=-unit->getSpeed();i<=unit->getSpeed();i++)
-		for (int j=-(unit->getSpeed()-abs(i));j<=(unit->getSpeed()-abs(i));j++) {
-			int tileOffset = 0;
-			sf::Color color(255, 255, 255, 0);
-			if (isInLimits(Point2D(x+i, y+j))) {
-				if (cells[x+i][y+j].getValue()) {
-					tileOffset = CELL_SIZE;
-				}
-				color = sf::Color(255,255,255,100);
+	std::list<Cell*>::iterator it;
+	for (it=unit->moveReach.begin(); it!=unit->moveReach.end(); it++) {
+		int tileOffset = 0;
+		int x = (*it)->getPosition().getX();
+		int y = (*it)->getPosition().getY();
+		sf::Color color(255, 255, 255, 0);
+		if (isInLimits(Point2D(x, y))) {
+			if (cells[x][y].getValue()) {
+				tileOffset = CELL_SIZE;
 			}
-			int data[5] = {count, x+i, y+j, tileOffset, CELL_SIZE};
-			mask->constructQuad(data, screenPosition, color);
-			count += 4;
+			color = sf::Color(255,255,255,100);
 		}
+		int data[5] = {count, x, y, tileOffset, CELL_SIZE};
+		mask->constructQuad(data, screenPosition, color);
+		count += 4;
+	}
 	Drawable::addRender(mask, SUB_UNIT_LAYER, true);
 }
 
@@ -102,7 +115,7 @@ void Map::render(Camera *camera) {
 	mapSprite->setPosition(-camera->getPosition().getX(), -camera->getPosition().getY());
 	addRender(mapSprite, false);
 	if (selectedUnit != NULL)
-		generateMovingMask(selectedUnit, selectedUnit->getPosition().getX(), selectedUnit->getPosition().getY());
+		generateMovingMask(selectedUnit);
 }
 
 void Map::basicMap() {
