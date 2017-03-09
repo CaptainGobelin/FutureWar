@@ -33,6 +33,8 @@
 #define N_INPUT 13
 #define I_INPUT 14
 #define P_INPUT 15
+#define LEFT_CLICK_INPUT 16
+#define RIGHT_CLICK_INPUT 17
 
 //Menu inputs
 #define INIT_CHOICE 10

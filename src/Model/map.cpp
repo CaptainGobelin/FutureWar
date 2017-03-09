@@ -12,6 +12,7 @@ Map::Map(int w/*=5*/, int h/*=5*/) : Hoverable(BACKGROUND_LAYER, true) {
 			rows[i][j].setPosition(Point2D(i,j));
 		}
 	}
+	selectedUnit = NULL;
 	setGraphicSize(sf::Vector2f(width*CELL_SIZE, height*CELL_SIZE));
 	basicMap();
 
@@ -48,7 +49,7 @@ void Map::hovered(Point2D p) {
 	int xPos = (int)(p.getX()-screenPosition.x/CELL_SIZE);
 	int yPos = (int)(p.getY()-screenPosition.y/CELL_SIZE);
 	rows[xPos][yPos].hovered(screenPosition);
-	if (rows[xPos][yPos].unit != NULL) {
+	if (rows[xPos][yPos].unit != NULL && selectedUnit == NULL) {
 		generateMovingMask(rows[xPos][yPos].unit, xPos, yPos);
 	}
 }
@@ -77,10 +78,33 @@ void Map::generateMovingMask(Unit *unit, int x, int y) {
 	Drawable::addRender(mask, SUB_UNIT_LAYER, true);
 }
 
+void Map::selectUnit(sf::Vector2i cursor) {
+	Point2D p = Point2D::divide(Point2D(cursor), CELL_SIZE);
+	int x = (int)(p.getX()-screenPosition.x/CELL_SIZE);
+	int y = (int)(p.getY()-screenPosition.y/CELL_SIZE);
+	if (selectedUnit == NULL) {
+		if (rows[x][y].unit != NULL) {
+			rows[x][y].unit->setSelected(true);
+			selectedUnit = rows[x][y].unit;
+		}
+	} else {
+		if (rows[x][y].unit != NULL) {
+			selectedUnit->setSelected(false);
+			rows[x][y].unit->setSelected(true);
+			selectedUnit = rows[x][y].unit;
+		} else {
+			selectedUnit->setSelected(false);
+			selectedUnit = NULL;
+		}
+	}
+}
+
 void Map::render(Camera *camera) {
 	setScreenPosition(sf::Vector2f(-camera->getPosition().getX(), -camera->getPosition().getY()));
 	mapSprite->setPosition(-camera->getPosition().getX(), -camera->getPosition().getY());
 	addRender(mapSprite, false);
+	if (selectedUnit != NULL)
+		generateMovingMask(selectedUnit, selectedUnit->getPosition().getX(), selectedUnit->getPosition().getY());
 }
 
 void Map::basicMap() {

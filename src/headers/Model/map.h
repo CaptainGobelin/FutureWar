@@ -22,8 +22,10 @@ class Map : public Hoverable {
 		void render(Camera *camera);
 		virtual void hovered(Point2D p);
 		void generateMovingMask(Unit *unit, int x, int y);
+		void selectUnit(sf::Vector2i cursor);
 
 		Cell** rows;
+		Unit* selectedUnit;
 		void basicMap();
 		bool canGo(Unit u, Point2D p);
 		

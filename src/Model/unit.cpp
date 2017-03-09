@@ -1,6 +1,7 @@
 #include "../headers/Model/unit.h"
 
 Unit::Unit(const int *unitInfo, int armyTextureOffset) : Hoverable(UNITS_LAYER, false) {
+	this->selected = false;
 	sprite = new sf::Sprite();
 	sf::Vector2f size(CELL_SIZE, CELL_SIZE);
 	setGraphicSize(size);
@@ -24,7 +25,7 @@ void Unit::render(Camera *camera) {
 	sf::Vector2f position(xPos, yPos);
 	setScreenPosition(position);
 	sprite->setPosition(position);
-	if (isHover()) {
+	if (isHover() || isSelected()) {
 		sprite->setColor(sf::Color::Green);
 	}
 	else

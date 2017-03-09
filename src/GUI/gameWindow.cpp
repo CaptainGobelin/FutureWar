@@ -35,6 +35,16 @@ int GameWindow::recupInput(bool isActive, sf::Event event) {
 		if (isActive) {
 			//Active exclusive event (especially mouse events)
 		}
+		if (event.type == sf::Event::MouseButtonPressed) {
+			if (event.mouseButton.button == sf::Mouse::Left) {
+				value = LEFT_CLICK_INPUT;
+				return value;
+			}
+			if (event.mouseButton.button == sf::Mouse::Right) {
+				value = RIGHT_CLICK_INPUT;
+				return value;
+			}
+		}
 		if (event.type == sf::Event::KeyPressed) {
 			if (event.key.code == sf::Keyboard::Up) {
 				value = UP_INPUT;

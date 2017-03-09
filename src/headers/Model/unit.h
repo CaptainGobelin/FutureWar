@@ -14,6 +14,8 @@ class Unit : public Hoverable {
 		Unit(const int *unitInfo, int armyTextureOffset);
 		~Unit();
 
+		const bool &isSelected() const {return selected;}
+		void setSelected(bool selected) {this->selected = selected;}
 		const int &getSpeed() const {return speed;}
 		const Point2D &getPosition() const {return position;}
 		void setPosition(Point2D position) {this->position = position;}
@@ -24,6 +26,7 @@ class Unit : public Hoverable {
 		sf::Sprite *sprite;
 		
 	private:
+		bool selected;
 		int speed;
 		Point2D position;
 

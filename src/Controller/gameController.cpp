@@ -60,6 +60,10 @@ void GameController::gameLoop() {
 			camera->move(Point2D(-12, 0));
 		} else if (choice == RIGHT_INPUT) {
 			camera->move(Point2D(12, 0));
+		} else if (choice == LEFT_CLICK_INPUT) {
+			sf::Vector2i mousePosition(sf::Mouse::getPosition(GameWindow::window));
+			if (map->isHover())
+				map->selectUnit(mousePosition);
 		}
 		else if (choice == CLOSE_INPUT) {
 			return;
