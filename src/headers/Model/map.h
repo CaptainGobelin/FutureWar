@@ -7,6 +7,7 @@
 #include "../utils/ray.h"
 #include "../utils/point2D.h"
 #include "../utils/complexShape.h"
+#include "../utils/aStarAlgorithm.h"
 #include "cell.h"
 
 class Map : public Hoverable {

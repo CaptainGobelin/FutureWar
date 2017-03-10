@@ -17,7 +17,7 @@ class Point2D {
 		static Point2D substract(Point2D p1, Point2D p2);
 		void divide(int n);
 		static Point2D divide(Point2D p, int n);
-		int dist(Point2D p);
+		int dist(const Point2D p) const;
 		
 	private:
 		double x;

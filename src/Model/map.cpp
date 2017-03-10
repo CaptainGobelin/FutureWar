@@ -18,6 +18,7 @@ Map::Map(int w/*=5*/, int h/*=5*/) : Hoverable(BACKGROUND_LAYER, true) {
 	basicMap();
 
 	constructSprite();
+	AStarAlgorithm::apply(this, &(cells[1][1]), &(cells[3][1]));
 }
 
 Map::~Map() {

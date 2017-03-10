@@ -43,6 +43,6 @@ Point2D Point2D::divide(Point2D p, int n) {
 	return result;
 }
 
-int Point2D::dist(Point2D p) {
+int Point2D::dist(const Point2D p) const {
 	return abs(p.getX()-x) + abs(p.getY()-y);
 }
