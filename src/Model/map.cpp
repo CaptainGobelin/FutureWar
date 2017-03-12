@@ -1,6 +1,7 @@
 #include "../headers/Model/map.h"
 
 Map::Map(int w/*=5*/, int h/*=5*/) : Hoverable(BACKGROUND_LAYER, true) {
+	this->state = REFRESH_STATE;
 	this->width = w;
 	this->height = h;
 
@@ -70,6 +71,12 @@ void Map::hoverEvent(Point2D p) {
 	}
 }
 
+void Map::generateAllMoveList(Army *army) {
+	for (unsigned int i=0;i<army->units.size();i++) {
+		generateMoveList(army->units[i]);
+	}
+}
+
 void Map::generateMoveList(Unit *unit) {
 	unit->moveReach.clear();
 	int x = unit->getPosition().getX();
@@ -92,7 +99,7 @@ void Map::generateMovingMask(Unit *unit) {
 		int x = (*it).get<0>()->getPosition().getX();
 		int y = (*it).get<0>()->getPosition().getY();
 		sf::Color color(255, 255, 255, 100);
-		if ((*it).get<1>())
+		if (!(*it).get<1>())
 			tileOffset = CELL_SIZE;
 		int data[5] = {count, x, y, tileOffset, CELL_SIZE};
 		mask->constructQuad(data, screenPosition, color);
@@ -113,8 +120,14 @@ void Map::leftClickEvent(Point2D cursor) {
 		if (cells[x][y].unit != NULL) {
 			selectUnit(cells[x][y].unit);
 		} else {
-			selectedUnit->setSelected(false);
-			selectedUnit = NULL;
+			if (canReach(selectedUnit, &(cells[x][y]))) {
+				selectedUnit->move(&(cells[x][y]));
+				state = REFRESH_STATE;
+			}
+			else {
+				selectedUnit->setSelected(false);
+				selectedUnit = NULL;
+			}
 		}
 	}
 }
@@ -154,7 +167,7 @@ bool Map::canGo(Unit *u, Point2D p) {
 bool Map::canReach(Unit *u, Cell *c) {
 	int xPos = (int)u->getPosition().getX();
 	int yPos = (int)u->getPosition().getY();
-	return AStarAlgorithm::apply(this, u, &(cells[xPos][yPos]), c).empty();
+	return !AStarAlgorithm::apply(this, u, &(cells[xPos][yPos]), c).empty();
 }
 
 void Map::constructSprite() {

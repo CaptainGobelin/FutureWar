@@ -18,6 +18,8 @@ std::vector<tuple<Cell*, int> > AStarAlgorithm::apply(Map *map, Unit *unit, Cell
 	std::vector<tuple<Cell*, int> > result;
 	if (start == end)
 		return result;
+	if (end->unit != NULL)
+		return result;
 	int offsets[4][2] = {
 		{-1, 0},
 		{1, 0},

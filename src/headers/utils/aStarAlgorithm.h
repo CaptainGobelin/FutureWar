@@ -7,6 +7,7 @@
 #include "point2D.h"
 #include "aStarNode.h"
 #include "../Model/map.h"
+#include "../Model/unit.h"
 
 class AStarAlgorithm {
 	public:

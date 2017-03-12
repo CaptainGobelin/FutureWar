@@ -15,6 +15,10 @@
 #define GRID_Y 14
 #define CELL_SIZE 24
 
+//States
+#define NORMAL_STATE 0
+#define REFRESH_STATE 1
+
 //Inputs
 #define NO_INPUT -1
 #define INVALID_INPUT 0

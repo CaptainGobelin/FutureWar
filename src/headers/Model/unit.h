@@ -8,8 +8,8 @@
 #include "../utils/camera.h"
 #include "../GUI/hoverable.h"
 #include "../utils/point2D.h"
+#include "cell.h"
 
-class Cell;
 class Map;
 
 class Unit : public Hoverable {
@@ -23,12 +23,15 @@ class Unit : public Hoverable {
 		const Point2D &getPosition() const {return position;}
 		void setPosition(Point2D position) {this->position = position;}
 
+		void move(Cell *c);
+
 		void render(Camera *camera);
 		virtual void hoverEvent(Point2D p);
 		virtual void leftClickEvent(Point2D p);
 
 		sf::Sprite *sprite;
 		std::list<tuple<Cell*, bool> > moveReach;
+		Cell *cell;
 		
 	private:
 		bool selected;

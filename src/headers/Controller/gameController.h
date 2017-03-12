@@ -23,6 +23,7 @@ class GameController {
 		void hoverEvent();
 		void render();
 		void renderMap();
+		void refreshMap();
 
 		Map* map;
 		Camera* camera;

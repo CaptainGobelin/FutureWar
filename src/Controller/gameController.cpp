@@ -36,20 +36,17 @@ void GameController::launch() {
 
 void GameController::gameLoop() {
 	for (int i=0;i<playerArmy->units.size();i++) {
-		map->cells[1][1+i].setUnit(playerArmy->units[i]);
-	}
-	for (int i=0;i<playerArmy->units.size();i++) {
-		map->generateMoveList(playerArmy->units[i]);
+		playerArmy->units[i]->move(&(map->cells[1][1+i]));
 	}
 	for (int i=0;i<aiArmy->units.size();i++) {
-		map->cells[map->getWidth()-2][map->getHeight()-2-i].setUnit(aiArmy->units[i]);
+		aiArmy->units[i]->move(&(map->cells[map->getWidth()-2][map->getHeight()-2-i]));
 		aiArmy->units[i]->sprite->setOrigin(CELL_SIZE, 0);
 		aiArmy->units[i]->sprite->setScale(-1.f, 1.f);
-		map->generateMoveList(aiArmy->units[i]);
 	}
 	int choice = INIT_CHOICE;
 	sf::Event event;
 	while (choice != CLOSE_INPUT) {
+		refreshMap();
 		hoverEvent();
 		render();
 		choice = GameWindow::recupInput(true, event);
@@ -87,4 +84,11 @@ void GameController::render() {
 	aiArmy->render(camera);
 	Drawable::renderAll();
 	GameWindow::window.display();
+}
+void GameController::refreshMap() {
+	if (map->getState() != REFRESH_STATE)
+		return;
+	map->generateAllMoveList(playerArmy);
+	map->generateAllMoveList(aiArmy);
+	map->setState(NORMAL_STATE);
 }

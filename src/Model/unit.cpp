@@ -2,6 +2,7 @@
 
 Unit::Unit(const int *unitInfo, int armyTextureOffset) : Hoverable(UNITS_LAYER, false) {
 	this->selected = false;
+	this->cell = NULL;
 	moveReach.clear();
 	sprite = new sf::Sprite();
 	sf::Vector2f size(CELL_SIZE, CELL_SIZE);
@@ -17,6 +18,14 @@ void Unit::unitFactory(const int *unitInfo, int armyTextureOffset) {
 	speed = unitInfo[2];
 	this->sprite->setTexture(Textures::texturesUnits);
 	Textures::setTile(this->sprite, unitInfo[1], armyTextureOffset);
+}
+
+void Unit::move(Cell *c) {
+	if (cell != NULL)
+		cell->unit = NULL;
+	c->unit = this;
+	position = c->getPosition();
+	cell = c;
 }
 
 void Unit::render(Camera *camera) {
