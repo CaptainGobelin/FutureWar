@@ -18,7 +18,6 @@ Map::Map(int w/*=5*/, int h/*=5*/) : Hoverable(BACKGROUND_LAYER, true) {
 	basicMap();
 
 	constructSprite();
-	AStarAlgorithm::apply(this, &(cells[1][1]), &(cells[3][1]));
 }
 
 Map::~Map() {
@@ -53,6 +52,20 @@ void Map::hoverEvent(Point2D p) {
 	cells[xPos][yPos].hoverEvent();
 	if (cells[xPos][yPos].unit != NULL && selectedUnit == NULL) {
 		generateMovingMask(cells[xPos][yPos].unit);
+		return;
+	}
+	if (selectedUnit != NULL ) {
+		if (canGo(selectedUnit, Point2D(xPos, yPos))) {
+			Point2D p = selectedUnit->getPosition();
+			std::vector<tuple<Cell*, int> > path = 
+				AStarAlgorithm::apply(this, selectedUnit, &(cells[(int)p.getX()][(int)p.getY()]), &(cells[xPos][yPos]));
+			for (int i=0;i<path.size();i++) {
+				int nextPath = -1;
+				if (i < path.size()-1)
+					nextPath = path[i+1].get<1>();
+				path[i].get<0>()->renderArrow(path[i].get<1>(), nextPath);
+			}
+		}
 	}
 }
 
@@ -81,7 +94,7 @@ void Map::generateMovingMask(Unit *unit) {
 		int y = (*it)->getPosition().getY();
 		sf::Color color(255, 255, 255, 0);
 		if (isInLimits(Point2D(x, y))) {
-			if (cells[x][y].getValue()) {
+			if (canReach(unit, &(cells[x][y]))) {
 				tileOffset = CELL_SIZE;
 			}
 			color = sf::Color(255,255,255,100);
@@ -132,15 +145,21 @@ void Map::basicMap() {
 	cells[width-3][height-2].setValue(true);
 }
 
-bool Map::canGo(Unit u, Point2D p) {
+bool Map::canGo(Unit *u, Point2D p) {
 	if (!isInLimits(p))
 		return false;
-	Point2D unitPos(u.getPosition());
-	if (unitPos.dist(p) > u.getSpeed())
+	Point2D unitPos(u->getPosition());
+	if (unitPos.dist(p) > u->getSpeed())
 		return false;
 	if (cells[(int)p.getX()][(int)p.getY()].getValue())
 		return false;
 	return true;
+}
+
+bool Map::canReach(Unit *u, Cell *c) {
+	int xPos = (int)u->getPosition().getX();
+	int yPos = (int)u->getPosition().getY();
+	return AStarAlgorithm::apply(this, u, &(cells[xPos][yPos]), c).empty();
 }
 
 void Map::constructSprite() {

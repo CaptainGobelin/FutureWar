@@ -10,7 +10,7 @@
 
 class AStarAlgorithm {
 	public:
-		static int* apply(Map *map, Cell *start, Cell *end);
+		static std::vector<tuple<Cell*, int> > apply(Map *map, Unit *unit, Cell *start, Cell *end);
 
 		
 	private:

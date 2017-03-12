@@ -19,6 +19,8 @@ class Cell : public HoverableComponent {
 		const Point2D &getPosition() const {return position;}
 		void setPosition(Point2D position) {this->position = position;}
 
+		void renderArrow(int path, int nextPath);
+
 		virtual void hoverEvent();
 		virtual void leftClickEvent();
 

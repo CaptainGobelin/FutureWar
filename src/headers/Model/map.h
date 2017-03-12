@@ -29,7 +29,8 @@ class Map : public Hoverable {
 		Cell** cells;
 		Unit* selectedUnit;
 		void basicMap();
-		bool canGo(Unit u, Point2D p);
+		bool canGo(Unit *u, Point2D p);
+		bool canReach(Unit *u, Cell *c);
 		
 	private:
 		int height;
