@@ -28,7 +28,7 @@ class Unit : public Hoverable {
 		virtual void leftClickEvent(Point2D p);
 
 		sf::Sprite *sprite;
-		std::list<Cell*> moveReach;
+		std::list<tuple<Cell*, bool> > moveReach;
 		
 	private:
 		bool selected;

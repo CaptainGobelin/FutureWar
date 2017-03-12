@@ -13,3 +13,8 @@ void Textures::loadTextures(const char *path) {
 	mapSpriteSheet.createMaskFromColor(sf::Color::Green);
 	texturesMap.loadFromImage(mapSpriteSheet);
 }
+
+void Textures::setTile(sf::Sprite *sprite, int xTile, int yTile) {
+	sf::Vector2i offset(CELL_SIZE, CELL_SIZE);
+	sprite->setTextureRect(sf::IntRect(sf::Vector2i(xTile*CELL_SIZE, yTile*CELL_SIZE), offset));
+}

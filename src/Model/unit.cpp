@@ -15,9 +15,8 @@ Unit::~Unit() {
 
 void Unit::unitFactory(const int *unitInfo, int armyTextureOffset) {
 	speed = unitInfo[2];
-	sf::Vector2i offset(CELL_SIZE, CELL_SIZE);
 	this->sprite->setTexture(Textures::texturesUnits);
-	this->sprite->setTextureRect(sf::IntRect(sf::Vector2i(unitInfo[1]*CELL_SIZE, armyTextureOffset*CELL_SIZE), offset));
+	Textures::setTile(this->sprite, unitInfo[1], armyTextureOffset);
 }
 
 void Unit::render(Camera *camera) {

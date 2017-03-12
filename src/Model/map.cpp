@@ -58,7 +58,8 @@ void Map::hoverEvent(Point2D p) {
 		if (canGo(selectedUnit, Point2D(xPos, yPos))) {
 			Point2D p = selectedUnit->getPosition();
 			std::vector<tuple<Cell*, int> > path = 
-				AStarAlgorithm::apply(this, selectedUnit, &(cells[(int)p.getX()][(int)p.getY()]), &(cells[xPos][yPos]));
+				AStarAlgorithm::apply(this, selectedUnit,
+					&(cells[(int)p.getX()][(int)p.getY()]), &(cells[xPos][yPos]));
 			for (int i=0;i<path.size();i++) {
 				int nextPath = -1;
 				if (i < path.size()-1)
@@ -76,29 +77,23 @@ void Map::generateMoveList(Unit *unit) {
 	for (int i=-unit->getSpeed();i<=unit->getSpeed();i++)
 		for (int j=-(unit->getSpeed()-abs(i));j<=(unit->getSpeed()-abs(i));j++) {
 			if (isInLimits(Point2D(x+i, y+j)))
-				unit->moveReach.push_back(&cells[x+i][y+j]);
+				unit->moveReach.push_back(tuple<Cell *, bool>
+					(&cells[x+i][y+j], canReach(unit, &cells[x+i][y+j])));
 	}
 }
 
 void Map::generateMovingMask(Unit *unit) {
-	int maskSize = 1;
-	for (int k=1;k<=unit->getSpeed();k++)
-		maskSize += 4*k;
-	maskSize *= 4;
+	int maskSize = 4 * (1 + 2*unit->getSpeed()*(unit->getSpeed()+1)); //Math power
 	ComplexShape *mask = new ComplexShape(new sf::VertexArray(sf::Quads, maskSize), &Textures::texturesMap);
 	int count = 0;
-	std::list<Cell*>::iterator it;
+	std::list<tuple<Cell*, bool> >::iterator it;
 	for (it=unit->moveReach.begin(); it!=unit->moveReach.end(); it++) {
 		int tileOffset = 0;
-		int x = (*it)->getPosition().getX();
-		int y = (*it)->getPosition().getY();
-		sf::Color color(255, 255, 255, 0);
-		if (isInLimits(Point2D(x, y))) {
-			if (canReach(unit, &(cells[x][y]))) {
-				tileOffset = CELL_SIZE;
-			}
-			color = sf::Color(255,255,255,100);
-		}
+		int x = (*it).get<0>()->getPosition().getX();
+		int y = (*it).get<0>()->getPosition().getY();
+		sf::Color color(255, 255, 255, 100);
+		if ((*it).get<1>())
+			tileOffset = CELL_SIZE;
 		int data[5] = {count, x, y, tileOffset, CELL_SIZE};
 		mask->constructQuad(data, screenPosition, color);
 		count += 4;

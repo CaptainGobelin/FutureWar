@@ -7,9 +7,12 @@
 class Textures {
 	public:
 		static void loadTextures(const char *path);
+		static void setTile(sf::Sprite *sprite, int xTile, int yTile);
+
 		static sf::Texture texturesStart;
 		static sf::Texture texturesUnits;
 		static sf::Texture texturesMap;
+
 };
 
 #endif

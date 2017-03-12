@@ -29,6 +29,9 @@ class Cell : public HoverableComponent {
 	private:
 		bool value;
 		Point2D position;
+
+		int getArrowRotation(int arrowType, int path, int nextPath);
+		sf::Vector2f computeScreenPosition();
 };
 
 #endif
