@@ -1,0 +1,23 @@
+%% Future War init file
+%% Basic syntax => option=value
+%% WARNING : if you change options from here the game doesn't check if everything is correct !
+
+frameLimit=49
+vSync=true
+
+%% Key binding
+%% Availables keys:
+%% All letters (no capitals)
+%% Arrows
+%% Return
+%% Backspace
+%% Escape
+
+%% Game keys
+upMove=Z
+downMove=S
+rightMove=D
+leftMove=Q
+exit=Escape
+confirm=Return
+cancel=N

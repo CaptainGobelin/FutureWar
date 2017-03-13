@@ -4,6 +4,8 @@
 #include "../include/const.h"
 #include "../include/lib.h"
 
+#include "../Controller/optionsFile.h"
+
 class GameWindow {
 	public:
 		static void setOptions();

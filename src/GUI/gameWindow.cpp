@@ -1,9 +1,11 @@
 #include "../headers/GUI/gameWindow.h"
 
 void GameWindow::setOptions() {
+	//Load the game config
+	OptionsFile::load();
 	window.create(sf::VideoMode(L_WINDOW, H_WINDOW, 32), "Pouet Engine");
-	window.setVerticalSyncEnabled(true);
-	window.setFramerateLimit(30);
+	window.setVerticalSyncEnabled(OptionsFile::vSync);
+	window.setFramerateLimit(OptionsFile::frameLimit);
 	viewGame.reset(sf::FloatRect(0, 0, L_WINDOW, H_WINDOW));
 	viewGame.setViewport(sf::FloatRect(0, 0, 1.f, 1.f));
 	window.setView(viewGame);
@@ -46,27 +48,27 @@ int GameWindow::recupInput(bool isActive, sf::Event event) {
 			}
 		}
 		if (event.type == sf::Event::KeyPressed) {
-			if (event.key.code == sf::Keyboard::Up) {
+			if (event.key.code == OptionsFile::upGameKey) {
 				value = UP_INPUT;
 				return value;
 			}
-			if (event.key.code == sf::Keyboard::Down) {
+			if (event.key.code == OptionsFile::downGameKey) {
 				value = DOWN_INPUT;
 				return value;
 			}
-			if (event.key.code == sf::Keyboard::Right) {
+			if (event.key.code == OptionsFile::rightGameKey) {
 				value = RIGHT_INPUT;
 				return value;
 			}
-			if (event.key.code == sf::Keyboard::Left) {
+			if (event.key.code == OptionsFile::leftGameKey) {
 				value = LEFT_INPUT;
 				return value;
 			}
-			if (event.key.code == sf::Keyboard::Escape) {
+			if (event.key.code == OptionsFile::exitGameKey) {
 				value = CLOSE_INPUT;
 				return value;
 			}
-			if (event.key.code == sf::Keyboard::Return) {
+			if (event.key.code == OptionsFile::confirmGameKey) {
 				value = ENTER_INPUT;
 				return value;
 			}
