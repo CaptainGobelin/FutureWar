@@ -116,6 +116,7 @@ sf::Keyboard::Key OptionsFile::toKey(std::string const& s) {
 		return sf::Keyboard::BackSpace;
 	if (s == "Escape")
 		return sf::Keyboard::Escape;
+	return sf::Keyboard::BackSpace;
 }
 
 bool OptionsFile::toBool(std::string const& s) {

@@ -1,6 +1,7 @@
 #include "../headers/Model/map.h"
 
-Map::Map(int w/*=5*/, int h/*=5*/) : Hoverable(BACKGROUND_LAYER, true) {
+Map::Map(InterfaceController *interface, int w/*=5*/, int h/*=5*/) : Hoverable(BACKGROUND_LAYER, true) {
+	this->interface = interface;
 	this->state = REFRESH_STATE;
 	this->width = w;
 	this->height = h;
@@ -25,6 +26,7 @@ Map::~Map() {
 	for (int i = 0; i < this->width; i++)
 		delete [] this->cells[i];
 	delete [] this->cells;
+	delete mapSprite;
 }
 
 Cell Map::getCell(int x, int y) {
@@ -115,6 +117,7 @@ void Map::leftClickEvent(Point2D cursor) {
 	if (selectedUnit == NULL) {
 		if (cells[x][y].unit != NULL) {
 			selectUnit(cells[x][y].unit);
+			interface->openActionMenu();
 		}
 	} else {
 		if (cells[x][y].unit != NULL) {

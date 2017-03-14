@@ -12,6 +12,7 @@ class Textures {
 		static sf::Texture texturesStart;
 		static sf::Texture texturesUnits;
 		static sf::Texture texturesMap;
+		static sf::Texture texturesInterface;
 
 };
 

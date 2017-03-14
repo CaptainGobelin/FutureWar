@@ -5,6 +5,10 @@ ComplexShape::ComplexShape(sf::VertexArray *vertices, sf::Texture *texture) {
     this->texture = texture;
 }
 
+ComplexShape::~ComplexShape() {
+	delete vertices;
+}
+
 void ComplexShape::constructQuad(int data[5], sf::Vector2f cameraOffset, sf::Color color) {
 	int offsets[4][2] = {
 		{0, 0},

@@ -20,6 +20,7 @@ std::list<tuple<sf::Drawable*, int, bool> > Drawable::renderQueue;
 sf::Texture Textures::texturesStart;
 sf::Texture Textures::texturesUnits;
 sf::Texture Textures::texturesMap;
+sf::Texture Textures::texturesInterface;
 
 int main(int argc, char *argv[]) {
 	//Initialize game

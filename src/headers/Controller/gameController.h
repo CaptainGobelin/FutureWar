@@ -4,6 +4,7 @@
 #include "../include/lib.h"
 #include "../include/const.h"
 
+#include "interfaceController.h"
 #include "../utils/textures.h"
 #include "../GUI/gameWindow.h"
 #include "../GUI/hoverable.h"
@@ -15,6 +16,7 @@
 class GameController {
 	public:
 		GameController();
+		~GameController();
 		void launch();
 
 	private:
@@ -24,6 +26,8 @@ class GameController {
 		void render();
 		void renderMap();
 		void refreshMap();
+
+		InterfaceController interface;
 
 		Map* map;
 		Camera* camera;

@@ -4,6 +4,7 @@
 #include "../include/const.h"
 #include "../include/lib.h"
 
+#include "../Controller/interfaceController.h"
 #include "../utils/ray.h"
 #include "../utils/point2D.h"
 #include "../utils/complexShape.h"
@@ -13,7 +14,7 @@
 
 class Map : public Hoverable {
 	public:
-		Map(int w=5, int h=5);
+		Map(InterfaceController *interface, int w=5, int h=5);
 		~Map();
 		const int &getState() const {return state;}
 		void setState(int state) {this->state = state;}
@@ -30,6 +31,7 @@ class Map : public Hoverable {
 		void generateMoveList(Unit *unit);
 		void generateMovingMask(Unit *unit);
 
+		InterfaceController *interface;
 		Cell** cells;
 		Unit* selectedUnit;
 		void basicMap();

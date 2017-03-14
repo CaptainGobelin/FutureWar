@@ -5,7 +5,6 @@
 #define OPTION_PATH "usr/ini.txt"
 #define TEXTURES_PATH "dat/"
 #define SAVE_PATH "usr/sav/"
-#define WORLD_PATH "usr/world/"
 #define FONT_PATH "dat/font/"
 
 //Window

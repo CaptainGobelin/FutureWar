@@ -1,7 +1,7 @@
 #include "../headers/utils/textures.h"
 
 void Textures::loadTextures(const char *path) {
-	texturesStart.loadFromFile(path+(std::string)"int/title-screen.png");
+	texturesStart.loadFromFile(path+(std::string)"int/title_screen.png");
 
 	sf::Image unitSpriteSheet;
 	unitSpriteSheet.loadFromFile(path+(std::string)"sprites/armies_texture.png");
@@ -12,6 +12,8 @@ void Textures::loadTextures(const char *path) {
 	mapSpriteSheet.loadFromFile(path+(std::string)"sprites/terrain_textures.png");
 	mapSpriteSheet.createMaskFromColor(sf::Color::Green);
 	texturesMap.loadFromImage(mapSpriteSheet);
+
+	texturesInterface.loadFromFile(path+(std::string)"int/interface_textures.png");
 }
 
 void Textures::setTile(sf::Sprite *sprite, int xTile, int yTile) {

@@ -7,7 +7,7 @@ Army::Army(const int armyList[][3]) {
 
 Army::~Army() {
 	for (unsigned int i=0;i<units.size();i++) {
-		delete(units[i]);
+		delete units[i];
 	}
 }
 

@@ -7,11 +7,20 @@ GameController::GameController() {
 	GameWindow::setOptions();
 	//Load textures
 	Textures::loadTextures(TEXTURES_PATH);
+	//Init interface
+	this->interface = InterfaceController();
 
 	this->camera = new Camera();
-	this->map = new Map(10, 10);
+	this->map = new Map(&interface, 10, 10);
 	this->playerArmy = new Army(fedsArmyList);
 	this->aiArmy = new Army(mechsArmyList);
+}
+
+GameController::~GameController() {
+	delete camera;
+	delete map;
+	delete playerArmy;
+	delete aiArmy;
 }
 
 void GameController::launch() {
@@ -82,6 +91,7 @@ void GameController::render() {
 	map->render(camera);
 	playerArmy->render(camera);
 	aiArmy->render(camera);
+	interface.render();
 	Drawable::renderAll();
 	GameWindow::window.display();
 }
