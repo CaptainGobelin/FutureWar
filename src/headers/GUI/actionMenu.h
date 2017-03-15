@@ -6,9 +6,13 @@
 
 #include "actionMenuButton.h"
 
+#include "../Controller/interfaceController.h"
+
+class InterfaceController;
+
 class ActionMenu : public Hoverable {
 	public:
-		ActionMenu();
+		ActionMenu(InterfaceController *interface);
 		~ActionMenu();
 
 		virtual void hoverEvent(Point2D p);
@@ -18,6 +22,7 @@ class ActionMenu : public Hoverable {
 		void render();
 
 		std::vector<ActionMenuButton*> buttons;
+		InterfaceController *interface;
 
 	private:
 };

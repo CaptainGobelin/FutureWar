@@ -6,12 +6,18 @@
 
 #include "../GUI/actionMenu.h"
 
+class ActionMenu;
+
 class InterfaceController {
 	public:
 		InterfaceController();
 		~InterfaceController();
 
+		const int &getState() const {return state;}
+		void setState(int state) {this->state = state;}
+
 		void openActionMenu();
+		void deleteActionMenuLink();
 		void closeActionMenu();
 		void render();
 
@@ -19,6 +25,7 @@ class InterfaceController {
 		sf::Font font;
 
 	private:
+		int state;
 };
 
 #endif

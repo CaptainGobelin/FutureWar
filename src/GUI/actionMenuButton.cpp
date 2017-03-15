@@ -11,12 +11,13 @@ ActionMenuButton::ActionMenuButton(Hoverable* parent, std::string name, int yOff
 		sprite[i]->setPosition(position);
 	}
 
-	text = new sf::Text();
-	text->setString(name);
-	text->setCharacterSize(CELL_SIZE/2);
+	this->name = name;
 
 	if (name.size() > 7)
 		name.resize(7);
+	text = new sf::Text();
+	text->setString(name);
+	text->setCharacterSize(CELL_SIZE/2);
 	position.y += CELL_SIZE/4;
 	position.x += (8-name.size())*(CELL_SIZE/4);
 	text->setPosition(position);
@@ -42,10 +43,11 @@ void ActionMenuButton::render() {
 	hover = false;
 }
 
-void ActionMenuButton::hoverEvent() {
+int ActionMenuButton::hoverEvent() {
 	hover = true;
+	return 0;
 }
 
-void ActionMenuButton::leftClickEvent() {
-	
+int ActionMenuButton::leftClickEvent() {
+	return menuSignals[name];
 }

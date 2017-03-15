@@ -1,6 +1,7 @@
 #include "../headers/GUI/actionMenu.h"
 
-ActionMenu::ActionMenu() : Hoverable(INTERFACE_LAYER, true) {
+ActionMenu::ActionMenu(InterfaceController *interface) : Hoverable(INTERFACE_LAYER, true) {
+	this->interface = interface;
 	buttons.clear();
 	setScreenPosition(sf::Vector2f(2*CELL_SIZE, 2*CELL_SIZE));
 	setGraphicSize(sf::Vector2f(4*CELL_SIZE, buttons.size()*CELL_SIZE));
@@ -28,5 +29,8 @@ void ActionMenu::hoverEvent(Point2D p) {
 }
 
 void ActionMenu::leftClickEvent(Point2D p) {
-	
+	int yOffset = (int)(p.getY() - screenPosition.y/CELL_SIZE);
+	interface->setState(buttons[yOffset]->leftClickEvent());
+	interface->deleteActionMenuLink();
+	delete this;
 }

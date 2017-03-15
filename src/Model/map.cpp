@@ -54,11 +54,13 @@ void Map::hoverEvent(Point2D p) {
 	int yPos = (int)(p.getY()-screenPosition.y/CELL_SIZE);
 	cells[xPos][yPos].hoverEvent();
 	if (cells[xPos][yPos].unit != NULL && selectedUnit == NULL) {
-		generateMovingMask(cells[xPos][yPos].unit);
-		return;
+		if (interface->getState() == MENU_CLOSE) {
+			generateMovingMask(cells[xPos][yPos].unit);
+			return;
+		}
 	}
 	if (selectedUnit != NULL ) {
-		if (canGo(selectedUnit, Point2D(xPos, yPos))) {
+		if (canGo(selectedUnit, Point2D(xPos, yPos)) && interface->getState() == MOVE_SIGNAL) {
 			Point2D p = selectedUnit->getPosition();
 			std::vector<tuple<Cell*, int> > path = 
 				AStarAlgorithm::apply(this, selectedUnit,
@@ -111,7 +113,6 @@ void Map::generateMovingMask(Unit *unit) {
 }
 
 void Map::leftClickEvent(Point2D cursor) {
-	cursor.divide(CELL_SIZE);
 	int x = (int)(cursor.getX()-screenPosition.x/CELL_SIZE);
 	int y = (int)(cursor.getY()-screenPosition.y/CELL_SIZE);
 	if (selectedUnit == NULL) {
@@ -123,13 +124,16 @@ void Map::leftClickEvent(Point2D cursor) {
 		if (cells[x][y].unit != NULL) {
 			selectUnit(cells[x][y].unit);
 		} else {
-			if (canReach(selectedUnit, &(cells[x][y]))) {
+			if (canReach(selectedUnit, &(cells[x][y])) && interface->getState() == MOVE_SIGNAL) {
 				selectedUnit->move(&(cells[x][y]));
 				state = REFRESH_STATE;
+				interface->openActionMenu();
 			}
 			else {
 				selectedUnit->setSelected(false);
 				selectedUnit = NULL;
+				interface->closeActionMenu();
+				interface->setState(MENU_CLOSE);
 			}
 		}
 	}
@@ -139,7 +143,7 @@ void Map::render(Camera *camera) {
 	setScreenPosition(sf::Vector2f(-camera->getPosition().getX(), -camera->getPosition().getY()));
 	mapSprite->setPosition(-camera->getPosition().getX(), -camera->getPosition().getY());
 	addRender(mapSprite, false);
-	if (selectedUnit != NULL)
+	if (selectedUnit != NULL && interface->getState() == MOVE_SIGNAL)
 		generateMovingMask(selectedUnit);
 }
 

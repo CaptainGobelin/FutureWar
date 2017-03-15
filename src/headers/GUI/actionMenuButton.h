@@ -4,6 +4,7 @@
 #include "../include/lib.h"
 #include "../include/const.h"
 
+#include "menuSignals.h"
 #include "hoverableComponent.h"
 
 class ActionMenuButton : public HoverableComponent {
@@ -13,8 +14,8 @@ class ActionMenuButton : public HoverableComponent {
 
 		void render();
 
-		virtual void hoverEvent();
-		virtual void leftClickEvent();
+		virtual int hoverEvent();
+		virtual int leftClickEvent();
 
 		sf::Sprite *sprite[2];
 		sf::Text *text;
@@ -22,6 +23,7 @@ class ActionMenuButton : public HoverableComponent {
 
 	private:
 		sf::Font *font;
+		std::string name;
 };
 
 #endif

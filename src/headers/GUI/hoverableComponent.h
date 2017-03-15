@@ -13,8 +13,8 @@ class HoverableComponent {
 		const bool &isHover() const {return hover;}
 		void setHover(bool hover) {this->hover = hover;}
 
-		virtual void hoverEvent() = 0;
-		virtual void leftClickEvent() = 0;
+		virtual int hoverEvent() = 0;
+		virtual int leftClickEvent() = 0;
 
 		Hoverable* parent;
 

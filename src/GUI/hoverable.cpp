@@ -36,3 +36,15 @@ void Hoverable::checkHoverEvents(sf::Vector2i cursor) {
 		}
 	}
 }
+
+
+void Hoverable::leftClickEvents(sf::Vector2i cursor) {
+	std::list<Hoverable*>::iterator it;
+	for (it=hoverableElements.begin(); it!=hoverableElements.end(); ++it) {
+		if ((*it)->isHover()) {
+			(*it)->leftClickEvent(Point2D::divide(Point2D(cursor), CELL_SIZE));
+			if ((*it)->stopRay)
+				return;
+		}
+	}
+}

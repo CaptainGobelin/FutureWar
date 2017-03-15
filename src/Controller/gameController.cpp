@@ -72,8 +72,7 @@ void GameController::gameLoop() {
 			camera->move(Point2D(12, 0));
 		} else if (choice == LEFT_CLICK_INPUT) {
 			sf::Vector2i mousePosition(sf::Mouse::getPosition(GameWindow::window));
-			if (map->isHover())
-				map->leftClickEvent(Point2D(mousePosition));
+			Hoverable::leftClickEvents(mousePosition);
 		}
 		else if (choice == CLOSE_INPUT) {
 			return;

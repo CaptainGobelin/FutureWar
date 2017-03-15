@@ -6,7 +6,6 @@
 
 #include "point2D.h"
 #include "../Model/cell.h"
-#include "../Model/map.h"
 
 class AStarNode {
 	public:

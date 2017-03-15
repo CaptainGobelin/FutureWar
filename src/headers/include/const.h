@@ -18,6 +18,12 @@
 #define NORMAL_STATE 0
 #define REFRESH_STATE 1
 
+//Menu states
+#define MENU_CLOSE 0
+#define ACTION_MENU_OPEN 1
+#define MOVE_SIGNAL 2
+#define ATTACK_SIGNAL 3
+
 //Inputs
 #define NO_INPUT -1
 #define INVALID_INPUT 0

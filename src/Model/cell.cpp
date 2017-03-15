@@ -28,16 +28,17 @@ void Cell::renderArrow(int path, int nextPath) {
 	Drawable::addRender(sprite, UNITS_LAYER, true);
 }
 
-void Cell::hoverEvent() {
+int Cell::hoverEvent() {
 	sf::Vector2f size(CELL_SIZE, CELL_SIZE);
 	sf::RectangleShape *rectangle = new sf::RectangleShape(size);
 	rectangle->setPosition(computeScreenPosition());
 	rectangle->setFillColor(sf::Color(250, 250, 250, 100));
 	Drawable::addRender(rectangle, SUB_UNIT_LAYER, true);
+	return 0;
 }
 
-void Cell::leftClickEvent() {
-
+int Cell::leftClickEvent() {
+	return 0;
 }
 
 int Cell::getArrowRotation(int arrowType, int path, int nextPath) {

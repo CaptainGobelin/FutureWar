@@ -21,8 +21,8 @@ class Cell : public HoverableComponent {
 
 		void renderArrow(int path, int nextPath);
 
-		virtual void hoverEvent();
-		virtual void leftClickEvent();
+		virtual int hoverEvent();
+		virtual int leftClickEvent();
 
 		Unit* unit;
 		
