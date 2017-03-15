@@ -17,12 +17,8 @@
 //States
 #define NORMAL_STATE 0
 #define REFRESH_STATE 1
-
-//Menu states
-#define MENU_CLOSE 0
-#define ACTION_MENU_OPEN 1
-#define MOVE_SIGNAL 2
-#define ATTACK_SIGNAL 3
+#define MOVE_STATE 2
+#define ATTACK_STATE 3
 
 //Inputs
 #define NO_INPUT -1

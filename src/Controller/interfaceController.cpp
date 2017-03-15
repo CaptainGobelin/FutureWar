@@ -1,7 +1,7 @@
 #include "../headers/Controller/interfaceController.h"
 
 InterfaceController::InterfaceController() {
-	this->state = MENU_CLOSE;
+	this->state = NORMAL_STATE;
 	this->actionMenu = NULL;
 	this->font.loadFromFile((std::string)FONT_PATH+"nes.ttf");
 }
@@ -14,7 +14,7 @@ void InterfaceController::openActionMenu() {
 	actionMenu = new ActionMenu(this);
 	actionMenu->addButton("Move", &font);
 	actionMenu->addButton("Attack", &font);
-	state = ACTION_MENU_OPEN;
+	state = NORMAL_STATE;
 }
 
 void InterfaceController::deleteActionMenuLink() {

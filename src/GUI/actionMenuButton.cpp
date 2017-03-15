@@ -49,5 +49,5 @@ int ActionMenuButton::hoverEvent() {
 }
 
 int ActionMenuButton::leftClickEvent() {
-	return menuSignals[name];
+	return menuStates[name];
 }

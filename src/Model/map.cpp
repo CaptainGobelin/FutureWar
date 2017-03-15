@@ -53,88 +53,55 @@ void Map::hoverEvent(Point2D p) {
 	int xPos = (int)(p.getX()-screenPosition.x/CELL_SIZE);
 	int yPos = (int)(p.getY()-screenPosition.y/CELL_SIZE);
 	cells[xPos][yPos].hoverEvent();
-	if (cells[xPos][yPos].unit != NULL && selectedUnit == NULL) {
-		if (interface->getState() == MENU_CLOSE) {
-			generateMovingMask(cells[xPos][yPos].unit);
-			return;
-		}
-	}
-	if (selectedUnit != NULL ) {
-		if (canGo(selectedUnit, Point2D(xPos, yPos)) && interface->getState() == MOVE_SIGNAL) {
-			Point2D p = selectedUnit->getPosition();
-			std::vector<tuple<Cell*, int> > path = 
-				AStarAlgorithm::apply(this, selectedUnit,
-					&(cells[(int)p.getX()][(int)p.getY()]), &(cells[xPos][yPos]));
-			for (int i=0;i<path.size();i++) {
-				int nextPath = -1;
-				if (i < path.size()-1)
-					nextPath = path[i+1].get<1>();
-				path[i].get<0>()->renderArrow(path[i].get<1>(), nextPath);
+	switch (interface->getState()) {
+		case NORMAL_STATE : {
+			if (cells[xPos][yPos].unit != NULL && selectedUnit == NULL) {
+				generateMovingMask(cells[xPos][yPos].unit);
+				return;
 			}
+			break;
+		}
+		case MOVE_STATE : {
+			if (canGo(selectedUnit, Point2D(xPos, yPos))) {
+				Point2D p = selectedUnit->getPosition();
+				std::vector<tuple<Cell*, int> > path = 
+					AStarAlgorithm::apply(this, selectedUnit,
+						&(cells[(int)p.getX()][(int)p.getY()]), &(cells[xPos][yPos]));
+				for (int i=0;i<path.size();i++) {
+					int nextPath = -1;
+					if (i < path.size()-1)
+						nextPath = path[i+1].get<1>();
+					path[i].get<0>()->renderArrow(path[i].get<1>(), nextPath);
+				}
+			}
+			break;
 		}
 	}
-}
-
-void Map::generateAllMoveList(Army *army) {
-	for (unsigned int i=0;i<army->units.size();i++) {
-		generateMoveList(army->units[i]);
-	}
-}
-
-void Map::generateMoveList(Unit *unit) {
-	unit->moveReach.clear();
-	int x = unit->getPosition().getX();
-	int y = unit->getPosition().getY();
-	for (int i=-unit->getSpeed();i<=unit->getSpeed();i++)
-		for (int j=-(unit->getSpeed()-abs(i));j<=(unit->getSpeed()-abs(i));j++) {
-			if (isInLimits(Point2D(x+i, y+j)))
-				unit->moveReach.push_back(tuple<Cell *, bool>
-					(&cells[x+i][y+j], canReach(unit, &cells[x+i][y+j])));
-	}
-}
-
-void Map::generateMovingMask(Unit *unit) {
-	int maskSize = 4 * (1 + 2*unit->getSpeed()*(unit->getSpeed()+1)); //Math power
-	ComplexShape *mask = new ComplexShape(new sf::VertexArray(sf::Quads, maskSize), &Textures::texturesMap);
-	int count = 0;
-	std::list<tuple<Cell*, bool> >::iterator it;
-	for (it=unit->moveReach.begin(); it!=unit->moveReach.end(); it++) {
-		int tileOffset = 0;
-		int x = (*it).get<0>()->getPosition().getX();
-		int y = (*it).get<0>()->getPosition().getY();
-		sf::Color color(255, 255, 255, 100);
-		if (!(*it).get<1>())
-			tileOffset = CELL_SIZE;
-		int data[5] = {count, x, y, tileOffset, CELL_SIZE};
-		mask->constructQuad(data, screenPosition, color);
-		count += 4;
-	}
-	Drawable::addRender(mask, SUB_UNIT_LAYER, true);
 }
 
 void Map::leftClickEvent(Point2D cursor) {
 	int x = (int)(cursor.getX()-screenPosition.x/CELL_SIZE);
 	int y = (int)(cursor.getY()-screenPosition.y/CELL_SIZE);
-	if (selectedUnit == NULL) {
-		if (cells[x][y].unit != NULL) {
-			selectUnit(cells[x][y].unit);
-			interface->openActionMenu();
-		}
-	} else {
-		if (cells[x][y].unit != NULL) {
-			selectUnit(cells[x][y].unit);
-		} else {
-			if (canReach(selectedUnit, &(cells[x][y])) && interface->getState() == MOVE_SIGNAL) {
-				selectedUnit->move(&(cells[x][y]));
-				state = REFRESH_STATE;
+	switch (interface->getState()) {
+		case NORMAL_STATE : {
+			if (cells[x][y].unit != NULL) {
+				selectUnit(cells[x][y].unit);
 				interface->openActionMenu();
 			}
 			else {
 				selectedUnit->setSelected(false);
 				selectedUnit = NULL;
 				interface->closeActionMenu();
-				interface->setState(MENU_CLOSE);
 			}
+			break;
+		}
+		case MOVE_STATE : {
+			if (canReach(selectedUnit, &(cells[x][y]))) {
+				selectedUnit->move(&(cells[x][y]));
+				state = REFRESH_STATE;
+				interface->openActionMenu();
+			}
+			break;
 		}
 	}
 }
@@ -143,7 +110,7 @@ void Map::render(Camera *camera) {
 	setScreenPosition(sf::Vector2f(-camera->getPosition().getX(), -camera->getPosition().getY()));
 	mapSprite->setPosition(-camera->getPosition().getX(), -camera->getPosition().getY());
 	addRender(mapSprite, false);
-	if (selectedUnit != NULL && interface->getState() == MOVE_SIGNAL)
+	if (selectedUnit != NULL && interface->getState() == MOVE_STATE)
 		generateMovingMask(selectedUnit);
 }
 
@@ -196,4 +163,41 @@ void Map::selectUnit(Unit *unit) {
 		selectedUnit->setSelected(false);
 	selectedUnit = unit;
 	selectedUnit->setSelected(true);
+}
+
+void Map::generateAllMoveList(Army *army) {
+	for (unsigned int i=0;i<army->units.size();i++) {
+		generateMoveList(army->units[i]);
+	}
+}
+
+void Map::generateMoveList(Unit *unit) {
+	unit->moveReach.clear();
+	int x = unit->getPosition().getX();
+	int y = unit->getPosition().getY();
+	for (int i=-unit->getSpeed();i<=unit->getSpeed();i++)
+		for (int j=-(unit->getSpeed()-abs(i));j<=(unit->getSpeed()-abs(i));j++) {
+			if (isInLimits(Point2D(x+i, y+j)))
+				unit->moveReach.push_back(tuple<Cell *, bool>
+					(&cells[x+i][y+j], canReach(unit, &cells[x+i][y+j])));
+	}
+}
+
+void Map::generateMovingMask(Unit *unit) {
+	int maskSize = 4 * (1 + 2*unit->getSpeed()*(unit->getSpeed()+1)); //Math power
+	ComplexShape *mask = new ComplexShape(new sf::VertexArray(sf::Quads, maskSize), &Textures::texturesMap);
+	int count = 0;
+	std::list<tuple<Cell*, bool> >::iterator it;
+	for (it=unit->moveReach.begin(); it!=unit->moveReach.end(); it++) {
+		int tileOffset = 0;
+		int x = (*it).get<0>()->getPosition().getX();
+		int y = (*it).get<0>()->getPosition().getY();
+		sf::Color color(255, 255, 255, 100);
+		if (!(*it).get<1>())
+			tileOffset = CELL_SIZE;
+		int data[5] = {count, x, y, tileOffset, CELL_SIZE};
+		mask->constructQuad(data, screenPosition, color);
+		count += 4;
+	}
+	Drawable::addRender(mask, SUB_UNIT_LAYER, true);
 }

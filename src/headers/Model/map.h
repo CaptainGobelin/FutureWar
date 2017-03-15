@@ -25,8 +25,10 @@ class Map : public Hoverable {
 		Cell getCell(Point2D p);
 		bool isInLimits(Point2D p);
 		void render(Camera *camera);
+
 		virtual void hoverEvent(Point2D p);
 		virtual void leftClickEvent(Point2D p);
+		
 		void generateAllMoveList(Army *army);
 		void generateMoveList(Unit *unit);
 		void generateMovingMask(Unit *unit);
