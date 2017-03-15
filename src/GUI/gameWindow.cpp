@@ -4,11 +4,30 @@ void GameWindow::setOptions() {
 	//Load the game config
 	OptionsFile::load();
 	window.create(sf::VideoMode(L_WINDOW, H_WINDOW, 32), "Pouet Engine");
+	isFullscreen = false;
 	window.setVerticalSyncEnabled(OptionsFile::vSync);
 	window.setFramerateLimit(OptionsFile::frameLimit);
 	viewGame.reset(sf::FloatRect(0, 0, L_WINDOW, H_WINDOW));
 	viewGame.setViewport(sf::FloatRect(0, 0, 1.f, 1.f));
 	window.setView(viewGame);
+}
+
+void GameWindow::switchFullscreen() {
+	//window.close();
+	if (isFullscreen) {
+		window.create(sf::VideoMode(L_WINDOW, H_WINDOW, 32), "Pouet Engine");
+		viewGame.reset(sf::FloatRect(0, 0, L_WINDOW, H_WINDOW));
+		viewGame.setViewport(sf::FloatRect(0, 0, 1.f, 1.f));
+		window.setView(viewGame);
+		isFullscreen = false;
+	}
+	else {
+		window.create(sf::VideoMode(L_WINDOW, H_WINDOW, 32), "Pouet Engine", sf::Style::Fullscreen);
+		viewGame.reset(sf::FloatRect(0, 0, L_WINDOW, H_WINDOW));
+		viewGame.setViewport(sf::FloatRect(0.1f, 0, .8f, 1.f));
+		window.setView(viewGame);
+		isFullscreen = true;
+	}
 }
 
 int GameWindow::recupInput(bool isActive, sf::Event event) {
@@ -48,6 +67,11 @@ int GameWindow::recupInput(bool isActive, sf::Event event) {
 			}
 		}
 		if (event.type == sf::Event::KeyPressed) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt))
+				if (event.key.code == sf::Keyboard::Return) {
+					switchFullscreen();
+					return value;
+				}
 			if (event.key.code == OptionsFile::upGameKey) {
 				value = UP_INPUT;
 				return value;

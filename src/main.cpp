@@ -2,6 +2,7 @@
 
 sf::RenderWindow GameWindow::window;
 sf::View GameWindow::viewGame;
+bool GameWindow::isFullscreen;
 
 //Default options
 int OptionsFile::frameLimit = 30;

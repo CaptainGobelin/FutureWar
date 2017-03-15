@@ -89,7 +89,8 @@ void Map::leftClickEvent(Point2D cursor) {
 				interface->openActionMenu();
 			}
 			else {
-				selectedUnit->setSelected(false);
+				if (selectedUnit != NULL)
+					selectedUnit->setSelected(false);
 				selectedUnit = NULL;
 				interface->closeActionMenu();
 			}

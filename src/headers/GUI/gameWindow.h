@@ -9,11 +9,13 @@
 class GameWindow {
 	public:
 		static void setOptions();
+		static void switchFullscreen();
 		static int recupInput(bool isActive, sf::Event event);
 		
 		static sf::RenderWindow window;
 		//Game viewport
 		static sf::View viewGame;
+		static bool isFullscreen;
 };
 
 #endif
