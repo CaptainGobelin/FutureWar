@@ -23,6 +23,8 @@ class GameController {
 		void gameLoop();
 		int recupInput(bool isActive, sf::Event event);
 		void hoverEvent();
+		void leftClickEvent();
+		void clearQueueEvent();
 		void render();
 		void renderMap();
 		void refreshMap();

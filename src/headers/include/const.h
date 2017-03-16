@@ -8,11 +8,15 @@
 #define FONT_PATH "dat/font/"
 
 //Window
-#define L_WINDOW 512
-#define H_WINDOW 350
+#define L_WINDOW 1152
+#define H_WINDOW 672
 #define GRID_X 21
 #define GRID_Y 14
 #define CELL_SIZE 24
+#define WINDOW_NAME "Super Future War"
+
+//Animations
+#define CAMERA_SPEED 0.1F
 
 //States
 #define NORMAL_STATE 0

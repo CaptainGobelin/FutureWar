@@ -3,26 +3,28 @@
 void GameWindow::setOptions() {
 	//Load the game config
 	OptionsFile::load();
-	window.create(sf::VideoMode(L_WINDOW, H_WINDOW, 32), "Pouet Engine");
+	window.create(sf::VideoMode(L_WINDOW, H_WINDOW, 32), WINDOW_NAME);
 	isFullscreen = false;
 	window.setVerticalSyncEnabled(OptionsFile::vSync);
 	window.setFramerateLimit(OptionsFile::frameLimit);
 	viewGame.reset(sf::FloatRect(0, 0, L_WINDOW, H_WINDOW));
 	viewGame.setViewport(sf::FloatRect(0, 0, 1.f, 1.f));
+	sf::Image icon;
+	icon.loadFromFile(TEXTURES_PATH+(std::string)"int/icon.png");
+	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 	window.setView(viewGame);
 }
 
 void GameWindow::switchFullscreen() {
-	//window.close();
 	if (isFullscreen) {
-		window.create(sf::VideoMode(L_WINDOW, H_WINDOW, 32), "Pouet Engine");
+		window.create(sf::VideoMode(L_WINDOW, H_WINDOW, 32), WINDOW_NAME);
 		viewGame.reset(sf::FloatRect(0, 0, L_WINDOW, H_WINDOW));
 		viewGame.setViewport(sf::FloatRect(0, 0, 1.f, 1.f));
 		window.setView(viewGame);
 		isFullscreen = false;
 	}
 	else {
-		window.create(sf::VideoMode(L_WINDOW, H_WINDOW, 32), "Pouet Engine", sf::Style::Fullscreen);
+		window.create(sf::VideoMode(L_WINDOW, H_WINDOW, 32), WINDOW_NAME, sf::Style::Fullscreen);
 		viewGame.reset(sf::FloatRect(0, 0, L_WINDOW, H_WINDOW));
 		viewGame.setViewport(sf::FloatRect(0.1f, 0, .8f, 1.f));
 		window.setView(viewGame);
@@ -107,4 +109,8 @@ int GameWindow::recupInput(bool isActive, sf::Event event) {
 		}
 	}
 	return value;
+}
+
+sf::Vector2i GameWindow::getMousePosition() {
+	return sf::Vector2i(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
 }

@@ -8,7 +8,9 @@ class Point2D {
 	public:
 		Point2D(double x=0, double y=0);
 		Point2D(sf::Vector2i v);
+		void setX(double x) {this->x = x;}
 		const double &getX() const {return x;}
+		void setY(double y) {this->y = y;}
 		const double &getY() const {return y;}
 
 		void add(Point2D offset);

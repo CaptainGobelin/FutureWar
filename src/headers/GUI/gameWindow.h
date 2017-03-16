@@ -11,6 +11,7 @@ class GameWindow {
 		static void setOptions();
 		static void switchFullscreen();
 		static int recupInput(bool isActive, sf::Event event);
+		static sf::Vector2i getMousePosition();
 		
 		static sf::RenderWindow window;
 		//Game viewport

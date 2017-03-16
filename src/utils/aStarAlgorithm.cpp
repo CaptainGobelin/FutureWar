@@ -59,7 +59,7 @@ std::vector<tuple<Cell*, int> > AStarAlgorithm::apply(Map *map, Unit *unit, Cell
 			if (map->isInLimits(Point2D(neighboursX, neighboursY))) {
 				if (!map->canGo(unit, Point2D(neighboursX, neighboursY)))
 					continue;
-				if (u->cost >= unit->getSpeed())
+				if (u->cost >= unit->getRemMov())
 					continue;
 				AStarNode *v = new AStarNode(end, &(map->cells[neighboursX][neighboursY]), u->cost+1);
 				v->path = i;

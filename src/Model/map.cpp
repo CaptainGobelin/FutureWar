@@ -97,7 +97,8 @@ void Map::leftClickEvent(Point2D cursor) {
 			break;
 		}
 		case MOVE_STATE : {
-			if (canReach(selectedUnit, &(cells[x][y]))) {
+			if (canReach(selectedUnit, &(cells[x][y])) > -1) {
+				selectedUnit->remMov -= canReach(selectedUnit, &(cells[x][y]));
 				selectedUnit->move(&(cells[x][y]));
 				state = REFRESH_STATE;
 				interface->openActionMenu();
@@ -132,17 +133,17 @@ bool Map::canGo(Unit *u, Point2D p) {
 	if (!isInLimits(p))
 		return false;
 	Point2D unitPos(u->getPosition());
-	if (unitPos.dist(p) > u->getSpeed())
+	if (unitPos.dist(p) > u->remMov)
 		return false;
 	if (cells[(int)p.getX()][(int)p.getY()].getValue())
 		return false;
 	return true;
 }
 
-bool Map::canReach(Unit *u, Cell *c) {
+int Map::canReach(Unit *u, Cell *c) {
 	int xPos = (int)u->getPosition().getX();
 	int yPos = (int)u->getPosition().getY();
-	return !AStarAlgorithm::apply(this, u, &(cells[xPos][yPos]), c).empty();
+	return AStarAlgorithm::apply(this, u, &(cells[xPos][yPos]), c).size()-1;
 }
 
 void Map::constructSprite() {
@@ -176,25 +177,25 @@ void Map::generateMoveList(Unit *unit) {
 	unit->moveReach.clear();
 	int x = unit->getPosition().getX();
 	int y = unit->getPosition().getY();
-	for (int i=-unit->getSpeed();i<=unit->getSpeed();i++)
-		for (int j=-(unit->getSpeed()-abs(i));j<=(unit->getSpeed()-abs(i));j++) {
+	for (int i=-unit->remMov;i<=unit->remMov;i++)
+		for (int j=-(unit->remMov-abs(i));j<=(unit->remMov-abs(i));j++) {
 			if (isInLimits(Point2D(x+i, y+j)))
-				unit->moveReach.push_back(tuple<Cell *, bool>
+				unit->moveReach.push_back(tuple<Cell *, int>
 					(&cells[x+i][y+j], canReach(unit, &cells[x+i][y+j])));
 	}
 }
 
 void Map::generateMovingMask(Unit *unit) {
-	int maskSize = 4 * (1 + 2*unit->getSpeed()*(unit->getSpeed()+1)); //Math power
+	int maskSize = 4 * (1 + 2*unit->remMov*(unit->remMov+1)); //Math power
 	ComplexShape *mask = new ComplexShape(new sf::VertexArray(sf::Quads, maskSize), &Textures::texturesMap);
 	int count = 0;
-	std::list<tuple<Cell*, bool> >::iterator it;
+	std::list<tuple<Cell*, int> >::iterator it;
 	for (it=unit->moveReach.begin(); it!=unit->moveReach.end(); it++) {
 		int tileOffset = 0;
 		int x = (*it).get<0>()->getPosition().getX();
 		int y = (*it).get<0>()->getPosition().getY();
 		sf::Color color(255, 255, 255, 100);
-		if (!(*it).get<1>())
+		if ((*it).get<1>() == -1)
 			tileOffset = CELL_SIZE;
 		int data[5] = {count, x, y, tileOffset, CELL_SIZE};
 		mask->constructQuad(data, screenPosition, color);

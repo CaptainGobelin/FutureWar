@@ -14,9 +14,11 @@ class Camera {
 		const Point2D &getPosition() const {return position;}
 
 		bool move(Point2D offset);
+		void step();
 		
 	private:
 		Point2D position;
+		Point2D goalPos;
 };
 
 #endif

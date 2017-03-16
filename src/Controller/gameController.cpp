@@ -12,8 +12,8 @@ GameController::GameController() {
 
 	this->camera = new Camera();
 	this->map = new Map(&interface, 10, 10);
-	this->playerArmy = new Army(fedsArmyList);
-	this->aiArmy = new Army(mechsArmyList);
+	this->playerArmy = new Army(fedsArmyList, true);
+	this->aiArmy = new Army(mechsArmyList, false);
 }
 
 GameController::~GameController() {
@@ -55,13 +55,12 @@ void GameController::gameLoop() {
 	int choice = INIT_CHOICE;
 	sf::Event event;
 	while (choice != CLOSE_INPUT) {
+		camera->step();
 		refreshMap();
 		hoverEvent();
 		render();
 		choice = GameWindow::recupInput(true, event);
-		//Clear queue event
-		sf::Event trashcan;
-		while (GameWindow::window.pollEvent(trashcan));
+		clearQueueEvent();
 		if (choice == UP_INPUT) {
 			camera->move(Point2D(0, -12));
 		} else if (choice == DOWN_INPUT) {
@@ -71,8 +70,7 @@ void GameController::gameLoop() {
 		} else if (choice == RIGHT_INPUT) {
 			camera->move(Point2D(12, 0));
 		} else if (choice == LEFT_CLICK_INPUT) {
-			sf::Vector2i mousePosition(GameWindow::window.mapPixelToCoords(sf::Mouse::getPosition(GameWindow::window)));
-			Hoverable::leftClickEvents(mousePosition);
+			leftClickEvent();
 		}
 		else if (choice == CLOSE_INPUT) {
 			return;
@@ -81,8 +79,16 @@ void GameController::gameLoop() {
 }
 
 void GameController::hoverEvent() {
-	sf::Vector2i mousePosition(GameWindow::window.mapPixelToCoords(sf::Mouse::getPosition(GameWindow::window)));
-	Hoverable::checkHoverEvents(mousePosition);
+	Hoverable::checkHoverEvents(GameWindow::getMousePosition());
+}
+
+void GameController::leftClickEvent() {
+	Hoverable::leftClickEvents(GameWindow::getMousePosition());
+}
+
+void GameController::clearQueueEvent() {
+	sf::Event trashcan;
+	while (GameWindow::window.pollEvent(trashcan));
 }
 
 void GameController::render() {

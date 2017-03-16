@@ -1,13 +1,15 @@
 #include "../headers/Model/unit.h"
 
-Unit::Unit(const int *unitInfo, int armyTextureOffset) : Hoverable(UNITS_LAYER, false) {
+Unit::Unit(const int *unitInfo, int armyTextureOffset, bool playerUnit) : Hoverable(UNITS_LAYER, false) {
 	this->selected = false;
 	this->cell = NULL;
+	this->playerUnit = playerUnit;
 	moveReach.clear();
 	sprite = new sf::Sprite();
 	sf::Vector2f size(CELL_SIZE, CELL_SIZE);
 	setGraphicSize(size);
 	unitFactory(unitInfo, armyTextureOffset);
+	newTurn();
 }
 
 Unit::~Unit() {
@@ -26,6 +28,11 @@ void Unit::move(Cell *c) {
 	c->unit = this;
 	position = c->getPosition();
 	cell = c;
+}
+
+void Unit::newTurn() {
+	remMov = speed;
+	available = true;
 }
 
 void Unit::render(Camera *camera) {

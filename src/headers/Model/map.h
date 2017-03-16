@@ -39,7 +39,7 @@ class Map : public Hoverable {
 		void basicMap();
 		bool canGo(Unit *u, Point2D p);
 		//More complex version but check paths (use wisely)
-		bool canReach(Unit *u, Cell *c);
+		int canReach(Unit *u, Cell *c);
 		
 	private:
 		int state;
