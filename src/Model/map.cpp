@@ -85,8 +85,10 @@ void Map::leftClickEvent(Point2D cursor) {
 	switch (interface->getState()) {
 		case NORMAL_STATE : {
 			if (cells[x][y].unit != NULL) {
-				selectUnit(cells[x][y].unit);
-				interface->openActionMenu();
+				if (cells[x][y].unit->isPlayerUnit() && cells[x][y].unit->isAvailable()) {
+					selectUnit(cells[x][y].unit);
+					interface->openActionMenu();
+				}
 			}
 			else {
 				if (selectedUnit != NULL)
@@ -99,9 +101,18 @@ void Map::leftClickEvent(Point2D cursor) {
 		case MOVE_STATE : {
 			if (canReach(selectedUnit, &(cells[x][y])) > -1) {
 				selectedUnit->remMov -= canReach(selectedUnit, &(cells[x][y]));
+				if (selectedUnit->remMov == 0)
+					selectedUnit->setAvailable(false);
 				selectedUnit->move(&(cells[x][y]));
 				state = REFRESH_STATE;
-				interface->openActionMenu();
+				if (selectedUnit->isAvailable()) {
+					interface->openActionMenu();
+				}
+				else {
+					interface->setState(NORMAL_STATE);
+					selectedUnit->setSelected(false);
+					selectedUnit = NULL;
+				}
 			}
 			break;
 		}

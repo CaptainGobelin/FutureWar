@@ -9,10 +9,10 @@
 
 class Army {
 	public:
-		Army(const int armyList[][3], bool playerArmy);
+		Army(const int armyList[][4], bool playerArmy);
 		~Army();
 
-		void armyFactory(const int armyList[][3], bool playerArmy);
+		void armyFactory(const int armyList[][4], bool playerArmy);
 
 		void render(Camera *camera);
 

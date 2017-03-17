@@ -22,7 +22,9 @@ class Unit : public Hoverable {
 		const int &getSpeed() const {return speed;}
 		const int &getRemMov() const {return remMov;}
 		const bool &isAvailable() const {return available;}
+		void setAvailable(bool available) {this->available = available;}
 		const bool &isPlayerUnit() const {return playerUnit;}
+		const int &getRange() const {return range;}
 		const Point2D &getPosition() const {return position;}
 		void setPosition(Point2D position) {this->position = position;}
 
@@ -43,6 +45,7 @@ class Unit : public Hoverable {
 		int speed;
 		bool available;
 		bool playerUnit;
+		int range;
 		Point2D position;
 
 

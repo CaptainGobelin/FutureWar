@@ -18,6 +18,7 @@ Unit::~Unit() {
 
 void Unit::unitFactory(const int *unitInfo, int armyTextureOffset) {
 	speed = unitInfo[2];
+	range = unitInfo[3];
 	this->sprite->setTexture(Textures::texturesUnits);
 	Textures::setTile(this->sprite, unitInfo[1], armyTextureOffset);
 }
@@ -41,7 +42,10 @@ void Unit::render(Camera *camera) {
 	sf::Vector2f position(xPos, yPos);
 	setScreenPosition(position);
 	sprite->setPosition(position);
-	if (isHover() || isSelected()) {
+	if (!isAvailable()) {
+		sprite->setColor(sf::Color(100, 100, 100));
+	}
+	else if (isHover() || isSelected()) {
 		sprite->setColor(sf::Color::Green);
 	}
 	else

@@ -1,6 +1,6 @@
 #include "../headers/Model/army.h"
 
-Army::Army(const int armyList[][3], bool playerArmy) {
+Army::Army(const int armyList[][4], bool playerArmy) {
 	units.clear();
 	armyFactory(armyList, playerArmy);
 }
@@ -11,7 +11,7 @@ Army::~Army() {
 	}
 }
 
-void Army::armyFactory(const int armyList[][3], bool playerArmy) {
+void Army::armyFactory(const int armyList[][4], bool playerArmy) {
 	for (int i=0;i<armyList[0][0];i++) {
 		Unit* unit = new Unit(armyList[i+1], armyList[0][1], playerArmy);
 		units.push_back(unit);
