@@ -52,10 +52,11 @@ void GameController::gameLoop() {
 		aiArmy->units[i]->sprite->setOrigin(CELL_SIZE, 0);
 		aiArmy->units[i]->sprite->setScale(-1.f, 1.f);
 	}
+	bool playerTurn = true;
 	int choice = INIT_CHOICE;
 	sf::Event event;
 	while (choice != CLOSE_INPUT) {
-		camera->step();
+		Animable::computeAnimations();
 		refreshMap();
 		hoverEvent();
 		render();

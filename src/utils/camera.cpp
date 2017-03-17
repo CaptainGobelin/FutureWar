@@ -11,13 +11,8 @@ Camera::Camera(Point2D position) {
 
 bool Camera::move(Point2D offset) {
 	//TODO check collision
-	goalPos.add(offset);
+	if (anim == NULL) {
+		anim = new AnimPosition(&position, Point2D::add(position, offset));
+	}
 	return true;
-}
-
-void Camera::step() {
-	int x = (position.getX()+goalPos.getX())/2;
-	int y = (position.getY()+goalPos.getY())/2;
-	position.setX(x);
-	position.setY(y);
 }

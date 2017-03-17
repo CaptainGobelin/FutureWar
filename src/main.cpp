@@ -15,6 +15,7 @@ sf::Keyboard::Key OptionsFile::exitGameKey = sf::Keyboard::Escape;
 sf::Keyboard::Key OptionsFile::confirmGameKey = sf::Keyboard::Return;
 sf::Keyboard::Key OptionsFile::cancelGameKey = sf::Keyboard::N;
 
+std::list<Animable*> Animable::animations;
 std::list<Hoverable*> Hoverable::hoverableElements;
 std::list<tuple<sf::Drawable*, int, bool> > Drawable::renderQueue;
 

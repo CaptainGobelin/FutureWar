@@ -10,6 +10,7 @@
 #include "../GUI/hoverable.h"
 #include "../GUI/drawable.h"
 #include "../utils/camera.h"
+#include "../utils/animable.h"
 #include "../Model/map.h"
 #include "../Model/army.h"
 
