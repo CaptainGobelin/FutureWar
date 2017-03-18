@@ -11,10 +11,10 @@ class Animable {
 		Animable();
 		~Animable();
 
-		virtual void step();
+		virtual bool step();
 
 		static std::list<Animable*> animations;
-		static void computeAnimations();
+		static bool computeAnimations();
 		
 	protected:
 		AnimPosition *anim;

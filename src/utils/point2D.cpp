@@ -32,6 +32,17 @@ Point2D Point2D::substract(Point2D p1, Point2D p2) {
 	return result;
 }
 
+void Point2D::cross(int n) {
+	this->x *= n;
+	this->y *= n;
+}
+
+Point2D Point2D::cross(Point2D p, int n) {
+	Point2D result = p;
+	result.cross(n);
+	return result;
+}
+
 void Point2D::divide(int n) {
 	this->x /= n;
 	this->y /= n;

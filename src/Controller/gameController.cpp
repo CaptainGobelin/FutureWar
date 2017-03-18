@@ -45,10 +45,10 @@ void GameController::launch() {
 
 void GameController::gameLoop() {
 	for (int i=0;i<playerArmy->units.size();i++) {
-		playerArmy->units[i]->move(&(map->cells[1][1+i]));
+		playerArmy->units[i]->move(&(map->cells[1][1+i]), false);
 	}
 	for (int i=0;i<aiArmy->units.size();i++) {
-		aiArmy->units[i]->move(&(map->cells[map->getWidth()-2][map->getHeight()-2-i]));
+		aiArmy->units[i]->move(&(map->cells[map->getWidth()-2][map->getHeight()-2-i]), false);
 		aiArmy->units[i]->sprite->setOrigin(CELL_SIZE, 0);
 		aiArmy->units[i]->sprite->setScale(-1.f, 1.f);
 	}

@@ -6,13 +6,14 @@
 
 #include "../utils/textures.h"
 #include "../utils/camera.h"
+#include "../utils/animable.h"
 #include "../GUI/hoverable.h"
 #include "../utils/point2D.h"
 #include "cell.h"
 
 class Map;
 
-class Unit : public Hoverable {
+class Unit : public Hoverable, public Animable {
 	public:
 		Unit(const int *unitInfo, int armyTextureOffset, bool playerUnit);
 		~Unit();
@@ -28,7 +29,7 @@ class Unit : public Hoverable {
 		const Point2D &getPosition() const {return position;}
 		void setPosition(Point2D position) {this->position = position;}
 
-		void move(Cell *c);
+		void move(Cell *c, bool animate);
 		void newTurn();
 
 		void render(Camera *camera);
@@ -47,6 +48,7 @@ class Unit : public Hoverable {
 		bool playerUnit;
 		int range;
 		Point2D position;
+		Point2D absolutePos;
 
 
 		void unitFactory(const int *unitInfo, int armyTextureOffset);

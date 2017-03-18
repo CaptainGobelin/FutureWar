@@ -23,11 +23,15 @@ void Unit::unitFactory(const int *unitInfo, int armyTextureOffset) {
 	Textures::setTile(this->sprite, unitInfo[1], armyTextureOffset);
 }
 
-void Unit::move(Cell *c) {
+void Unit::move(Cell *c, bool animate) {
 	if (cell != NULL)
 		cell->unit = NULL;
 	c->unit = this;
 	position = c->getPosition();
+	if (animate)
+		anim = new AnimPosition(&absolutePos, Point2D::cross(c->getPosition(), CELL_SIZE), 5);
+	else
+		absolutePos = Point2D::cross(position, CELL_SIZE);
 	cell = c;
 }
 
@@ -37,8 +41,8 @@ void Unit::newTurn() {
 }
 
 void Unit::render(Camera *camera) {
-	float xPos = this->position.getX()*CELL_SIZE - camera->getPosition().getX();
-	float yPos = this->position.getY()*CELL_SIZE - camera->getPosition().getY();
+	float xPos = this->absolutePos.getX() - camera->getPosition().getX();
+	float yPos = this->absolutePos.getY() - camera->getPosition().getY();
 	sf::Vector2f position(xPos, yPos);
 	setScreenPosition(position);
 	sprite->setPosition(position);

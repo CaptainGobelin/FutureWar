@@ -17,6 +17,8 @@ class Point2D {
 		static Point2D add(Point2D p1, Point2D p2);
 		void substract(Point2D offset);
 		static Point2D substract(Point2D p1, Point2D p2);
+		void cross(int n);
+		static Point2D cross(Point2D p, int n);
 		void divide(int n);
 		static Point2D divide(Point2D p, int n);
 		int dist(const Point2D p) const;

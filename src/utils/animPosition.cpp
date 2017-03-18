@@ -1,16 +1,18 @@
 #include "../headers/utils/animPosition.h"
 
-AnimPosition::AnimPosition(Point2D *position, Point2D goalPos) {
+AnimPosition::AnimPosition(Point2D *position, Point2D goalPos, int speed) {
 	this->position = position;
 	this->goalPos = goalPos;
 	this->over = false;
+	this->speed = speed;
 }
 
-void AnimPosition::step() {
+bool AnimPosition::step() {
 	if (over)
-		return;
-	int x = (position->getX()+goalPos.getX())/2;
-	int y = (position->getY()+goalPos.getY())/2;
+		return true;
+	double x = (speed*position->getX()+goalPos.getX())/(speed+1);
+	double y = (speed*position->getY()+goalPos.getY())/(speed+1);
+	//std::cout << position->getY() << " " << y << " " << goalPos.getY() << std::endl;
 	if (x == position->getX() && y == position->getY()) {
 		over = true;
 		x = goalPos.getX();
@@ -18,4 +20,5 @@ void AnimPosition::step() {
 	}
 	position->setX(x);
 	position->setY(y);
+	return over;
 }

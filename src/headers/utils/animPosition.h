@@ -8,16 +8,17 @@
 
 class AnimPosition {
 	public:
-		AnimPosition(Point2D *position, Point2D goalPos);
+		AnimPosition(Point2D *position, Point2D goalPos, int speed);
 
 		const bool &isOver() const {return over;}
 
-		void step();
+		bool step();
 		
 	private:
 		Point2D goalPos;
 		Point2D *position;
 		bool over;
+		int speed;
 };
 
 #endif

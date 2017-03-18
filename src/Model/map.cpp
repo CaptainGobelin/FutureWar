@@ -100,19 +100,14 @@ void Map::leftClickEvent(Point2D cursor) {
 		}
 		case MOVE_STATE : {
 			if (canReach(selectedUnit, &(cells[x][y])) > -1) {
-				selectedUnit->remMov -= canReach(selectedUnit, &(cells[x][y]));
+				//selectedUnit->remMov -= canReach(selectedUnit, &(cells[x][y]));
 				if (selectedUnit->remMov == 0)
 					selectedUnit->setAvailable(false);
-				selectedUnit->move(&(cells[x][y]));
+				selectedUnit->move(&(cells[x][y]), true);
 				state = REFRESH_STATE;
-				if (selectedUnit->isAvailable()) {
-					interface->openActionMenu();
-				}
-				else {
-					interface->setState(NORMAL_STATE);
-					selectedUnit->setSelected(false);
-					selectedUnit = NULL;
-				}
+				interface->setState(NORMAL_STATE);
+				selectedUnit->setSelected(false);
+				selectedUnit = NULL;
 			}
 			break;
 		}
@@ -194,6 +189,7 @@ void Map::generateMoveList(Unit *unit) {
 				unit->moveReach.push_back(tuple<Cell *, int>
 					(&cells[x+i][y+j], canReach(unit, &cells[x+i][y+j])));
 	}
+	generateMovingMask(unit);
 }
 
 void Map::generateMovingMask(Unit *unit) {

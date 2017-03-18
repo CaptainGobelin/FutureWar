@@ -10,19 +10,24 @@ Animable::~Animable() {
 	animations.remove(this);
 }
 
-void Animable::computeAnimations() {
+bool Animable::computeAnimations() {
+	bool result = false;
 	std::list<Animable*>::iterator it;
 	for (it=animations.begin(); it!=animations.end(); ++it) {
-		(*it)->step();
+		bool test = (*it)->step();
+		result = result || test;
 	}
+	return result;
 }
 
-void Animable::step() {
+bool Animable::step() {
 	if (anim == NULL)
-		return;
+		return true;
 	anim->step();
 	if (anim->isOver()) {
 		delete anim;
 		anim = NULL;
+		return true;
 	}
+	return false;
 }
