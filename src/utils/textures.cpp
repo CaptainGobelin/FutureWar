@@ -17,6 +17,8 @@ void Textures::loadTextures(const char *path) {
 }
 
 void Textures::setTile(sf::Sprite *sprite, int xTile, int yTile) {
-	sf::Vector2i offset(CELL_SIZE, CELL_SIZE);
-	sprite->setTextureRect(sf::IntRect(sf::Vector2i(xTile*CELL_SIZE, yTile*CELL_SIZE), offset));
+	sf::Vector2i offset(SPRITE_SIZE, SPRITE_SIZE);
+	float scale = (float)CELL_SIZE/SPRITE_SIZE;
+	sprite->setScale(scale, scale);
+	sprite->setTextureRect(sf::IntRect(sf::Vector2i(xTile*SPRITE_SIZE, yTile*SPRITE_SIZE), offset));
 }

@@ -22,7 +22,7 @@ void Cell::renderArrow(int path, int nextPath) {
 	sprite->setTexture(Textures::texturesMap);
 	Textures::setTile(sprite, arrowType, 2);
 	sprite->setPosition(computeScreenPosition());
-	sprite->setOrigin(CELL_SIZE/2, CELL_SIZE/2);
+	sprite->setOrigin(SPRITE_SIZE/2, SPRITE_SIZE/2);
 	sprite->move(CELL_SIZE/2, CELL_SIZE/2);
 	sprite->rotate(getArrowRotation(arrowType, path, nextPath));
 	Drawable::addRender(sprite, UNITS_LAYER, true);

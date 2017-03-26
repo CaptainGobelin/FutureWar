@@ -20,8 +20,8 @@ void ComplexShape::constructQuad(int data[5], sf::Vector2f cameraOffset, sf::Col
 		int xPos = (data[1]+offsets[k][0])*CELL_SIZE + cameraOffset.x;
 		int yPos = (data[2]+offsets[k][1])*CELL_SIZE + cameraOffset.y;
 		(*this->vertices)[data[0]+k].position = sf::Vector2f(xPos, yPos);
-		int xTex = offsets[k][0]*CELL_SIZE+data[3];
-		int yTex = offsets[k][1]*CELL_SIZE+data[4];
+		int xTex = offsets[k][0]*SPRITE_SIZE+data[3];
+		int yTex = offsets[k][1]*SPRITE_SIZE+data[4];
 		(*this->vertices)[data[0]+k].texCoords = sf::Vector2f(xTex, yTex);
 		(*this->vertices)[data[0]+k].color = color;
 	}

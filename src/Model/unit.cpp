@@ -17,7 +17,7 @@ Unit::~Unit() {
 }
 
 void Unit::unitFactory(const int *unitInfo, int armyTextureOffset) {
-	speed = unitInfo[2];
+	speed = unitInfo[2] +5;
 	range = unitInfo[3];
 	this->sprite->setTexture(Textures::texturesUnits);
 	Textures::setTile(this->sprite, unitInfo[1], armyTextureOffset);
@@ -29,7 +29,7 @@ void Unit::move(Cell *c, bool animate) {
 	c->unit = this;
 	position = c->getPosition();
 	if (animate)
-		anim = new AnimPosition(&absolutePos, Point2D::cross(c->getPosition(), CELL_SIZE), 5);
+		anim = new AnimPosition(&absolutePos, Point2D::cross(c->getPosition(), CELL_SIZE), UNITS_SPEED, true);
 	else
 		absolutePos = Point2D::cross(position, CELL_SIZE);
 	cell = c;

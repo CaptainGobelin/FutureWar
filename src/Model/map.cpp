@@ -159,7 +159,7 @@ void Map::constructSprite() {
 		for (int j=0;j<height;j++) {
 			int tileOffset = 0;
 			if (cells[i][j].getValue())
-				tileOffset = CELL_SIZE;
+				tileOffset = SPRITE_SIZE;
 			int data[5] = {count, i, j, tileOffset, 0};
 			mapSprite->constructQuad(data, sf::Vector2f(0,0), sf::Color(255, 255, 255, 255));
 			count += 4;
@@ -203,8 +203,8 @@ void Map::generateMovingMask(Unit *unit) {
 		int y = (*it).get<0>()->getPosition().getY();
 		sf::Color color(255, 255, 255, 100);
 		if ((*it).get<1>() == -1)
-			tileOffset = CELL_SIZE;
-		int data[5] = {count, x, y, tileOffset, CELL_SIZE};
+			tileOffset = SPRITE_SIZE;
+		int data[5] = {count, x, y, tileOffset, SPRITE_SIZE};
 		mask->constructQuad(data, screenPosition, color);
 		count += 4;
 	}

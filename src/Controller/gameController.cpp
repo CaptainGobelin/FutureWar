@@ -25,6 +25,9 @@ GameController::~GameController() {
 
 void GameController::launch() {
 	this->titleScreen.setTexture(Textures::texturesStart);
+	float imgScaleX = (float)L_WINDOW/titleScreen.getTexture()->getSize().x;
+	float imgScaleY = (float)H_WINDOW/titleScreen.getTexture()->getSize().y;
+	this->titleScreen.setScale(imgScaleX, imgScaleY);
 	this->titleScreen.setPosition(0,0);
 	int choice = INIT_CHOICE;
 	sf::Event event;
@@ -49,8 +52,8 @@ void GameController::gameLoop() {
 	}
 	for (int i=0;i<aiArmy->units.size();i++) {
 		aiArmy->units[i]->move(&(map->cells[map->getWidth()-2][map->getHeight()-2-i]), false);
-		aiArmy->units[i]->sprite->setOrigin(CELL_SIZE, 0);
-		aiArmy->units[i]->sprite->setScale(-1.f, 1.f);
+		aiArmy->units[i]->sprite->setOrigin(SPRITE_SIZE, 0);
+		aiArmy->units[i]->sprite->setScale(-(float)CELL_SIZE/SPRITE_SIZE, (float)CELL_SIZE/SPRITE_SIZE);
 	}
 	bool playerTurn = true;
 	int choice = INIT_CHOICE;

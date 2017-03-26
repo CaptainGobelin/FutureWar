@@ -8,7 +8,7 @@
 
 class AnimPosition {
 	public:
-		AnimPosition(Point2D *position, Point2D goalPos, int speed);
+		AnimPosition(Point2D *position, Point2D goalPos, int speed, bool smooth);
 
 		const bool &isOver() const {return over;}
 
@@ -18,7 +18,11 @@ class AnimPosition {
 		Point2D goalPos;
 		Point2D *position;
 		bool over;
+		bool smooth;
 		int speed;
+
+		void animSmooth();
+		void animCut();
 };
 
 #endif

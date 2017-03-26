@@ -3,11 +3,13 @@
 ActionMenuButton::ActionMenuButton(Hoverable* parent, std::string name, int yOffset, sf::Font *font) : HoverableComponent(parent) {
 	sf::Vector2f position = parent->getScreenPosition();
 	position.y += yOffset*CELL_SIZE;
-	sf::Vector2i offset(4*CELL_SIZE, CELL_SIZE);
+	sf::Vector2i offset(4*SPRITE_SIZE, SPRITE_SIZE);
 	for (int i=0;i<2;i++) {
 		sprite[i] = new sf::Sprite();
 		sprite[i]->setTexture(Textures::texturesInterface);
-		sprite[i]->setTextureRect(sf::IntRect(sf::Vector2i(0, i*CELL_SIZE), offset));
+		sprite[i]->setTextureRect(sf::IntRect(sf::Vector2i(0, i*SPRITE_SIZE), offset));
+		float scale = (float)CELL_SIZE/SPRITE_SIZE;
+		sprite[i]->setScale(scale, scale);
 		sprite[i]->setPosition(position);
 	}
 
