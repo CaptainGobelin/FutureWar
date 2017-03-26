@@ -8,11 +8,11 @@
 #define FONT_PATH "dat/font/"
 
 //Window
-#define L_WINDOW 960
-#define H_WINDOW 576
+#define L_WINDOW 512
+#define H_WINDOW 360
 #define GRID_X 21
 #define GRID_Y 14
-#define CELL_SIZE 48
+#define CELL_SIZE 24
 #define SPRITE_SIZE 24
 #define WINDOW_NAME "Super Future War"
 

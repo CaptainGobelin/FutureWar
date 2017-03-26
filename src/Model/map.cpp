@@ -87,6 +87,7 @@ void Map::leftClickEvent(Point2D cursor) {
 			if (cells[x][y].unit != NULL) {
 				if (cells[x][y].unit->isPlayerUnit() && cells[x][y].unit->isAvailable()) {
 					selectUnit(cells[x][y].unit);
+					interface->closeActionMenu();
 					interface->openActionMenu();
 				}
 			}

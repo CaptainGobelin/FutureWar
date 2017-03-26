@@ -66,13 +66,13 @@ void GameController::gameLoop() {
 		choice = GameWindow::recupInput(true, event);
 		clearQueueEvent();
 		if (choice == UP_INPUT) {
-			camera->move(Point2D(0, -12));
+			camera->move(Point2D(0, -CELL_SIZE/2));
 		} else if (choice == DOWN_INPUT) {
-			camera->move(Point2D(0, 12));
+			camera->move(Point2D(0, CELL_SIZE/2));
 		} else if (choice == LEFT_INPUT) {
-			camera->move(Point2D(-12, 0));
+			camera->move(Point2D(-CELL_SIZE/2, 0));
 		} else if (choice == RIGHT_INPUT) {
-			camera->move(Point2D(12, 0));
+			camera->move(Point2D(CELL_SIZE/2, 0));
 		} else if (choice == LEFT_CLICK_INPUT) {
 			leftClickEvent();
 		}
