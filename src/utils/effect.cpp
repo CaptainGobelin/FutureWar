@@ -1,12 +1,11 @@
 #include "../headers/utils/effect.h"
 
-Effect::Effect() : Drawable(EFFECTS_LAYER) {}
-
 Effect::Effect(int effectInfo, Point2D position) : Drawable(EFFECTS_LAYER) {
 	this->position = position;
 	sprite = new sf::Sprite();
 	effectFactory(effectInfo);
 	anim.push_back(new AnimEffect(this));
+	effectsController.push_back(this);
 }
 
 Effect::~Effect() {
@@ -22,15 +21,24 @@ void Effect::effectFactory(int effectInfo) {
 	Textures::setTile(this->sprite, xTile, yTile);
 }
 
-void Effect::render(Camera *camera) {
-	if (anim.empty()) {
-		delete this;
-		return;
-	}
+bool Effect::render(Camera *camera) {
 	float xPos = this->position.getX()*CELL_SIZE - camera->getPosition().getX();
 	float yPos = this->position.getY()*CELL_SIZE - camera->getPosition().getY();
 	sf::Vector2f position(xPos, yPos);
 	setScreenPosition(position);
 	sprite->setPosition(position);
+	if (anim.empty())
+		return true;
 	addRender(sprite, false);
+	return false;
+}
+
+void Effect::cleanEffects() {
+	std::list<Effect*>::iterator it;
+	for (it=effectsController.begin(); it!=effectsController.end(); it++) {
+		if ((*it)->anim.empty()) {
+			delete *it;
+			it = effectsController.erase(it);
+		}
+	}
 }

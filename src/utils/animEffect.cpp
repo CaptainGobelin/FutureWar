@@ -8,8 +8,9 @@ AnimEffect::AnimEffect(Effect *effect) : Animation(0) {
 AnimEffect::~AnimEffect() {}
 
 bool AnimEffect::step() {
-	if (over)
+	if (over) {
 		return true;
+	}
 	int k = stepCount*((double)effect->getNFrames()/effect->getDuration());
 	Textures::setTile(effect->sprite, effect->getXTile()+k, effect->getYTile());
 	if (stepCount >= effect->getDuration()) {

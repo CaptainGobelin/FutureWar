@@ -11,6 +11,7 @@
 #include "../GUI/drawable.h"
 #include "../utils/camera.h"
 #include "../utils/animable.h"
+#include "../utils/effect.h"
 #include "../Model/map.h"
 #include "../Model/army.h"
 

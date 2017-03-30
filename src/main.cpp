@@ -19,6 +19,7 @@ std::list<Animable*> Animable::animations;
 std::list<Hoverable*> Hoverable::hoverableElements;
 std::list<Drawable*> Drawable::drawableElements;
 std::list<tuple<sf::Drawable*, int, bool> > Drawable::renderQueue;
+std::list<Effect*> Effect::effectsController;
 
 sf::Texture Textures::texturesStart;
 sf::Texture Textures::texturesUnits;

@@ -46,7 +46,7 @@ void Unit::attack(Cell *cell) {
 	new Effect(0, Point2D(x,y));
 }
 
-void Unit::render(Camera *camera) {
+bool Unit::render(Camera *camera) {
 	float xPos = this->absolutePos.getX() - camera->getPosition().getX();
 	float yPos = this->absolutePos.getY() - camera->getPosition().getY();
 	sf::Vector2f position(xPos, yPos);
@@ -61,6 +61,7 @@ void Unit::render(Camera *camera) {
 	else
 		sprite->setColor(sf::Color::White);
 	addRender(sprite, false);
+	return false;
 }
 
 void Unit::hoverEvent(Point2D p) {}

@@ -36,7 +36,7 @@ class Unit : public Hoverable, public Animable {
 		void newTurn();
 		void attack(Cell *cell);
 
-		virtual void render(Camera *camera);
+		virtual bool render(Camera *camera);
 		virtual void hoverEvent(Point2D p);
 		virtual void leftClickEvent(Point2D p);
 

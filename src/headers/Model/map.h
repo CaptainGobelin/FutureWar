@@ -28,7 +28,7 @@ class Map : public Hoverable {
 		Cell getCell(Point2D p);
 		bool isInLimits(Point2D p);
 
-		virtual void render(Camera *camera);
+		virtual bool render(Camera *camera);
 		virtual void hoverEvent(Point2D p);
 		virtual void leftClickEvent(Point2D p);
 		

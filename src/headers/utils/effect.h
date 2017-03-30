@@ -12,12 +12,11 @@
 
 //xTile, yTile, frames, duration
 static const int effects[1][4] = {
-	{0, 0, 16, 16}
+	{0, 0, 12, 16}
 };
 
 class Effect : public Drawable, public Animable {
 	public:
-		Effect();
 		Effect(int unitInfo, Point2D position);
 		~Effect();
 
@@ -27,7 +26,10 @@ class Effect : public Drawable, public Animable {
 		const int &getXTile() const {return xTile;}
 		const int &getYTile() const {return yTile;}
 
-		virtual void render(Camera *camera);
+		virtual bool render(Camera *camera);
+
+		static std::list<Effect*> effectsController;
+		static void cleanEffects();
 
 		sf::Sprite *sprite;
 		

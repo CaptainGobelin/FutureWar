@@ -19,7 +19,7 @@ class ActionMenu : public Hoverable {
 		virtual void leftClickEvent(Point2D p);
 
 		void addButton(std::string name, sf::Font *font);
-		virtual void render(Camera* camera);
+		virtual bool render(Camera* camera);
 
 		std::vector<ActionMenuButton*> buttons;
 		InterfaceController *interface;

@@ -60,6 +60,7 @@ void GameController::gameLoop() {
 	sf::Event event;
 	while (choice != CLOSE_INPUT) {
 		Animable::computeAnimations();
+		Effect::cleanEffects();
 		refreshMap();
 		hoverEvent();
 		render();

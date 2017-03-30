@@ -14,7 +14,7 @@ using boost::tuple;
 class Drawable {
 	public:
 		Drawable(int layer);
-		~Drawable();
+		virtual ~Drawable();
 
 		const int &getLayer() const {return layer;}
 		const sf::Vector2f getScreenPosition() const {return screenPosition;}
@@ -23,7 +23,7 @@ class Drawable {
 		void setGraphicSize(sf::Vector2f graphicSize) {this->graphicSize = graphicSize;}
 
 		void addRender();
-		virtual void render(Camera *camera) = 0;
+		virtual bool render(Camera *camera) = 0;
 
 		static std::list<Drawable*> drawableElements;
 		static std::list<tuple<sf::Drawable*, int, bool> > renderQueue;

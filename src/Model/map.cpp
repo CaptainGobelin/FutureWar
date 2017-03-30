@@ -128,12 +128,13 @@ void Map::leftClickEvent(Point2D cursor) {
 	}
 }
 
-void Map::render(Camera *camera) {
+bool Map::render(Camera *camera) {
 	setScreenPosition(sf::Vector2f(-camera->getPosition().getX(), -camera->getPosition().getY()));
 	mapSprite->setPosition(-camera->getPosition().getX(), -camera->getPosition().getY());
 	addRender(mapSprite, false);
 	if (selectedUnit != NULL && interface->getState() == MOVE_STATE)
 		generateMovingMask(selectedUnit);
+	return false;
 }
 
 void Map::basicMap() {
