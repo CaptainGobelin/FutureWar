@@ -18,7 +18,7 @@ void ActionMenu::addButton(std::string name, sf::Font *font) {
 	setGraphicSize(sf::Vector2f(4*CELL_SIZE, buttons.size()*CELL_SIZE));
 }
 
-void ActionMenu::render() {
+void ActionMenu::render(Camera* camera) {
 	for (int i=0;i<buttons.size();i++)
 		buttons[i]->render();
 }

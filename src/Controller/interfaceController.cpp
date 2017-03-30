@@ -25,8 +25,3 @@ void InterfaceController::closeActionMenu() {
 	delete actionMenu;
 	deleteActionMenuLink();
 }
-
-void InterfaceController::render() {
-	if (actionMenu != NULL)
-		actionMenu->render();
-}

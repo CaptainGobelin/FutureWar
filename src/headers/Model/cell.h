@@ -6,13 +6,15 @@
 
 #include "../GUI/hoverableComponent.h"
 #include "../utils/camera.h"
+#include "map.h"
 
 class Unit;
+class Map;
 
 class Cell : public HoverableComponent {
 	public:
 		Cell();
-		Cell(Hoverable* parent);
+		Cell(Map* map, Hoverable* parent);
 
 		const bool &getValue() const {return value;}
 		void setValue(bool value) {this->value = value;}
@@ -25,6 +27,7 @@ class Cell : public HoverableComponent {
 		virtual int leftClickEvent();
 
 		Unit* unit;
+		Map* map;
 		
 	private:
 		bool value;

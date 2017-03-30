@@ -97,11 +97,8 @@ void GameController::clearQueueEvent() {
 
 void GameController::render() {
 	GameWindow::window.clear();
-	map->render(camera);
-	playerArmy->render(camera);
-	aiArmy->render(camera);
-	interface.render();
-	Drawable::renderAll();
+	Drawable::renderAll(camera);
+	Drawable::renderDrawQueue();
 	GameWindow::window.display();
 }
 void GameController::refreshMap() {

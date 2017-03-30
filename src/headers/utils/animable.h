@@ -4,7 +4,7 @@
 #include "../include/const.h"
 #include "../include/lib.h"
 
-#include "animPosition.h"
+#include "animation.h"
 
 class Animable {
 	public:
@@ -17,7 +17,7 @@ class Animable {
 		static bool computeAnimations();
 		
 	protected:
-		AnimPosition *anim;
+		std::list<Animation*> anim;
 };
 
 #endif

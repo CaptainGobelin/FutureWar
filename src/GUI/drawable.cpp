@@ -2,13 +2,21 @@
 
 Drawable::Drawable(int layer) {
 	this->layer = layer;
+	Drawable::drawableElements.push_back(this);
 }
 
 Drawable::~Drawable() {
-	
+	drawableElements.remove(this);
 }
 
-void Drawable::renderAll() {
+void Drawable::renderAll(Camera *camera) {
+	std::list<Drawable*>::iterator it;
+	for (it=drawableElements.begin(); it!=drawableElements.end(); ++it) {
+		(*it)->render(camera);
+	}
+}
+
+void Drawable::renderDrawQueue() {
 	while (!renderQueue.empty()) {
 		GameWindow::window.draw(*renderQueue.begin()->get<0>());
 		if (renderQueue.begin()->get<2>())

@@ -29,7 +29,7 @@ void Unit::move(Cell *c, bool animate) {
 	c->unit = this;
 	position = c->getPosition();
 	if (animate)
-		anim = new AnimPosition(&absolutePos, Point2D::cross(c->getPosition(), CELL_SIZE), UNITS_SPEED, true);
+		anim.push_back(new AnimPosition(&absolutePos, Point2D::cross(c->getPosition(), CELL_SIZE), UNITS_SPEED));
 	else
 		absolutePos = Point2D::cross(position, CELL_SIZE);
 	cell = c;
@@ -38,6 +38,12 @@ void Unit::move(Cell *c, bool animate) {
 void Unit::newTurn() {
 	remMov = speed;
 	available = true;
+}
+
+void Unit::attack(Cell *cell) {
+	int x = cell->getPosition().getX();
+	int y = cell->getPosition().getY();
+	new Effect(0, Point2D(x,y));
 }
 
 void Unit::render(Camera *camera) {

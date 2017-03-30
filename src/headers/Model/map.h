@@ -12,6 +12,9 @@
 #include "cell.h"
 #include "army.h"
 
+class Army;
+class Unit;
+
 class Map : public Hoverable {
 	public:
 		Map(InterfaceController *interface, int w=5, int h=5);
@@ -24,8 +27,8 @@ class Map : public Hoverable {
 		Cell getCell(int x, int y);
 		Cell getCell(Point2D p);
 		bool isInLimits(Point2D p);
-		void render(Camera *camera);
 
+		virtual void render(Camera *camera);
 		virtual void hoverEvent(Point2D p);
 		virtual void leftClickEvent(Point2D p);
 		

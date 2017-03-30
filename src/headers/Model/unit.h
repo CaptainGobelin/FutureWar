@@ -7,11 +7,14 @@
 #include "../utils/textures.h"
 #include "../utils/camera.h"
 #include "../utils/animable.h"
+#include "../utils/animPosition.h"
+#include "../utils/effect.h"
 #include "../GUI/hoverable.h"
 #include "../utils/point2D.h"
 #include "cell.h"
 
 class Map;
+class Cell;
 
 class Unit : public Hoverable, public Animable {
 	public:
@@ -31,8 +34,9 @@ class Unit : public Hoverable, public Animable {
 
 		void move(Cell *c, bool animate);
 		void newTurn();
+		void attack(Cell *cell);
 
-		void render(Camera *camera);
+		virtual void render(Camera *camera);
 		virtual void hoverEvent(Point2D p);
 		virtual void leftClickEvent(Point2D p);
 

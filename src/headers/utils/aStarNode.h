@@ -7,6 +7,8 @@
 #include "point2D.h"
 #include "../Model/cell.h"
 
+class Cell;
+
 class AStarNode {
 	public:
 		AStarNode(Cell *objective, Cell *cell, int cost);

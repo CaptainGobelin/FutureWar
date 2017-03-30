@@ -8,6 +8,11 @@ void Textures::loadTextures(const char *path) {
 	unitSpriteSheet.createMaskFromColor(sf::Color::Green);
 	texturesUnits.loadFromImage(unitSpriteSheet);
 
+	sf::Image effectsSpriteSheet;
+	effectsSpriteSheet.loadFromFile(path+(std::string)"sprites/effects_textures.png");
+	effectsSpriteSheet.createMaskFromColor(sf::Color::Green);
+	texturesEffects.loadFromImage(effectsSpriteSheet);
+
 	sf::Image mapSpriteSheet;
 	mapSpriteSheet.loadFromFile(path+(std::string)"sprites/terrain_textures.png");
 	mapSpriteSheet.createMaskFromColor(sf::Color::Green);

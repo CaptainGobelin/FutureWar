@@ -10,7 +10,7 @@ Map::Map(InterfaceController *interface, int w/*=5*/, int h/*=5*/) : Hoverable(B
 	for (int i=0;i<width;i++) {
 		cells[i] = new Cell[height];
 		for (int j=0;j<height;j++) {
-			cells[i][j] = Cell(this);
+			cells[i][j] = Cell(this, this);
 			cells[i][j].setValue(false);
 			cells[i][j].setPosition(Point2D(i,j));
 		}
@@ -109,6 +109,19 @@ void Map::leftClickEvent(Point2D cursor) {
 				interface->setState(NORMAL_STATE);
 				selectedUnit->setSelected(false);
 				selectedUnit = NULL;
+			}
+			break;
+		}
+		case ATTACK_STATE : {
+			if (cells[x][y].unit != NULL) {
+				selectedUnit->attack(&(cells[x][y]));
+				interface->setState(NORMAL_STATE);
+				selectedUnit->setSelected(false);
+				selectedUnit = NULL;
+			}
+			else {
+				interface->setState(NORMAL_STATE);
+				interface->openActionMenu();
 			}
 			break;
 		}

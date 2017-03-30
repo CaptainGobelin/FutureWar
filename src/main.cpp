@@ -17,10 +17,12 @@ sf::Keyboard::Key OptionsFile::cancelGameKey = sf::Keyboard::N;
 
 std::list<Animable*> Animable::animations;
 std::list<Hoverable*> Hoverable::hoverableElements;
+std::list<Drawable*> Drawable::drawableElements;
 std::list<tuple<sf::Drawable*, int, bool> > Drawable::renderQueue;
 
 sf::Texture Textures::texturesStart;
 sf::Texture Textures::texturesUnits;
+sf::Texture Textures::texturesEffects;
 sf::Texture Textures::texturesMap;
 sf::Texture Textures::texturesInterface;
 

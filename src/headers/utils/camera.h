@@ -6,6 +6,7 @@
 
 #include "point2D.h"
 #include "animable.h"
+#include "animPosition.h"
 
 class Camera : public Animable {
 	public:

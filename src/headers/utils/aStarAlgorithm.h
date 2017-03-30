@@ -7,7 +7,12 @@
 #include "point2D.h"
 #include "aStarNode.h"
 #include "../Model/map.h"
+#include "../Model/cell.h"
 #include "../Model/unit.h"
+
+class Map;
+class Cell;
+class Unit;
 
 class AStarAlgorithm {
 	public:

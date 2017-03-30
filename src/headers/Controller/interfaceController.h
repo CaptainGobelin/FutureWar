@@ -19,7 +19,6 @@ class InterfaceController {
 		void openActionMenu();
 		void deleteActionMenuLink();
 		void closeActionMenu();
-		void render();
 
 		ActionMenu *actionMenu;
 		sf::Font font;

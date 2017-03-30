@@ -17,8 +17,8 @@
 #define WINDOW_NAME "Super Future War"
 
 //Animations
-#define CAMERA_SPEED 1
-#define UNITS_SPEED 5
+#define CAMERA_SPEED 6
+#define UNITS_SPEED 10
 
 //States
 #define NORMAL_STATE 0
@@ -77,6 +77,7 @@
 #define BACKGROUND_LAYER 1
 #define SUB_UNIT_LAYER 2
 #define UNITS_LAYER 3
+#define EFFECTS_LAYER 4
 #define INTERFACE_LAYER 5
 
 //Save File

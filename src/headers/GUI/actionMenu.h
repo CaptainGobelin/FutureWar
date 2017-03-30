@@ -5,8 +5,8 @@
 #include "../include/const.h"
 
 #include "actionMenuButton.h"
-
 #include "../Controller/interfaceController.h"
+#include "../utils/camera.h"
 
 class InterfaceController;
 
@@ -19,7 +19,7 @@ class ActionMenu : public Hoverable {
 		virtual void leftClickEvent(Point2D p);
 
 		void addButton(std::string name, sf::Font *font);
-		void render();
+		virtual void render(Camera* camera);
 
 		std::vector<ActionMenuButton*> buttons;
 		InterfaceController *interface;

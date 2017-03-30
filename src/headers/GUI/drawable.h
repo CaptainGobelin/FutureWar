@@ -6,8 +6,8 @@
 
 #include "gameWindow.h"
 #include "../utils/textures.h"
-#include "../utils/camera.h"
 #include "../utils/point2D.h"
+#include "../utils/camera.h"
 
 using boost::tuple;
 
@@ -23,9 +23,12 @@ class Drawable {
 		void setGraphicSize(sf::Vector2f graphicSize) {this->graphicSize = graphicSize;}
 
 		void addRender();
+		virtual void render(Camera *camera) = 0;
 
+		static std::list<Drawable*> drawableElements;
 		static std::list<tuple<sf::Drawable*, int, bool> > renderQueue;
-		static void renderAll();
+		static void renderAll(Camera *camera);
+		static void renderDrawQueue();
 		static void addRender(sf::Drawable* graphic, int layer, bool ephemeral);
 
 	protected:

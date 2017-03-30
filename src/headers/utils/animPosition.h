@@ -4,25 +4,22 @@
 #include "../include/const.h"
 #include "../include/lib.h"
 
+#include "animation.h"
 #include "point2D.h"
 
-class AnimPosition {
+class Camera;
+
+class AnimPosition : public Animation {
 	public:
-		AnimPosition(Point2D *position, Point2D goalPos, int speed, bool smooth);
+		AnimPosition(Point2D *position, Point2D goalPos, int speed);
+		~AnimPosition();
 
-		const bool &isOver() const {return over;}
-
-		bool step();
+		virtual bool step();
 		
 	private:
+		Point2D startPos;
 		Point2D goalPos;
 		Point2D *position;
-		bool over;
-		bool smooth;
-		int speed;
-
-		void animSmooth();
-		void animCut();
 };
 
 #endif
