@@ -104,6 +104,12 @@ void Map::leftClickEvent(Point2D cursor) {
 				//selectedUnit->remMov -= canReach(selectedUnit, &(cells[x][y]));
 				if (selectedUnit->remMov == 0)
 					selectedUnit->setAvailable(false);
+				Point2D p = selectedUnit->getPosition();
+				std::vector<tuple<Cell*, int> > path = 
+					AStarAlgorithm::apply(this, selectedUnit,
+						&(cells[(int)p.getX()][(int)p.getY()]), &(cells[x][y]));
+				for (int i=0;i<path.size();i++)
+					selectedUnit->movementAnimation(path[i].get<0>());
 				selectedUnit->move(&(cells[x][y]), true);
 				state = REFRESH_STATE;
 				interface->setState(NORMAL_STATE);

@@ -33,6 +33,8 @@ class Unit : public Hoverable, public Animable {
 		void setPosition(Point2D position) {this->position = position;}
 
 		void move(Cell *c, bool animate);
+		void movementAnimation(Cell *c);
+		void shakingAnimation();
 		void newTurn();
 		void attack(Cell *cell);
 

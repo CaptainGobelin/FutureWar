@@ -25,13 +25,18 @@ bool Animable::computeAnimations() {
 bool Animable::step() {
 	if (anim.empty())
 		return true;
-	std::list<Animation*>::iterator it;
+	/*std::list<Animation*>::iterator it;
 	for (it=anim.begin(); it!=anim.end(); it++) {
 		(*it)->step();
 		if ((*it)->isOver()) {
 			delete *it;
 			it = anim.erase(it);
 		}
+	}*/
+	(*anim.begin())->step();
+	if ((*anim.begin())->isOver()) {
+		delete *anim.begin();
+		anim.pop_front();
 	}
 	return anim.empty();
 }

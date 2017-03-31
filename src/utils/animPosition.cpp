@@ -9,6 +9,8 @@ AnimPosition::AnimPosition(Point2D *position, Point2D goalPos, int speed) : Anim
 AnimPosition::~AnimPosition() {}
 
 bool AnimPosition::step() {
+	if (stepCount == 0)
+		this->startPos = Point2D(*position);
 	if (over)
 		return true;
 	double k = (double)stepCount/speed;

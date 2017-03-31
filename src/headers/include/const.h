@@ -18,7 +18,7 @@
 
 //Animations
 #define CAMERA_SPEED 6
-#define UNITS_SPEED 10
+#define UNITS_SPEED 5
 
 //States
 #define NORMAL_STATE 0

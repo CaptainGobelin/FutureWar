@@ -28,11 +28,20 @@ void Unit::move(Cell *c, bool animate) {
 		cell->unit = NULL;
 	c->unit = this;
 	position = c->getPosition();
-	if (animate)
-		anim.push_back(new AnimPosition(&absolutePos, Point2D::cross(c->getPosition(), CELL_SIZE), UNITS_SPEED));
-	else
-		absolutePos = Point2D::cross(position, CELL_SIZE);
 	cell = c;
+	if (!animate)
+		absolutePos = Point2D::cross(position, CELL_SIZE);
+}
+
+void Unit::movementAnimation(Cell *c) {
+	anim.push_back(new AnimPosition(&absolutePos, Point2D::cross(c->getPosition(), CELL_SIZE), UNITS_SPEED));
+}
+
+void Unit::shakingAnimation() {
+	anim.push_back(new AnimPosition(&absolutePos, Point2D::substract(absolutePos, 2), UNITS_SPEED/2));
+	anim.push_back(new AnimPosition(&absolutePos, Point2D::add(absolutePos, 2), UNITS_SPEED/2));
+	anim.push_back(new AnimPosition(&absolutePos, Point2D::substract(absolutePos, 2), UNITS_SPEED/2));
+	anim.push_back(new AnimPosition(&absolutePos, absolutePos, UNITS_SPEED/2));
 }
 
 void Unit::newTurn() {
@@ -44,6 +53,8 @@ void Unit::attack(Cell *cell) {
 	int x = cell->getPosition().getX();
 	int y = cell->getPosition().getY();
 	new Effect(0, Point2D(x,y));
+	if (cell->unit != NULL)
+		cell->unit->shakingAnimation();
 }
 
 bool Unit::render(Camera *camera) {
