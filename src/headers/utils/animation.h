@@ -9,6 +9,7 @@ class Animation {
 		Animation(int speed);
 		virtual ~Animation();
 		const bool &isOver() const {return over;}
+		void cut();
 
 		virtual bool step() = 0;
 		

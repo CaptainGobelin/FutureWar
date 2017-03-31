@@ -7,3 +7,7 @@ Animation::Animation(int speed) {
 }
 
 Animation::~Animation() {}
+
+void Animation::cut() {
+	stepCount = speed;
+}

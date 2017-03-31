@@ -20,6 +20,7 @@ class Camera : public Animable {
 		
 	private:
 		Point2D position;
+		Point2D goalPos;
 };
 
 #endif

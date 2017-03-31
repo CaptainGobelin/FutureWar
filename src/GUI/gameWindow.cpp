@@ -24,9 +24,12 @@ void GameWindow::switchFullscreen() {
 		isFullscreen = false;
 	}
 	else {
+		float ratio = (float)(sf::VideoMode::getDesktopMode().height*L_WINDOW);
+		ratio /= (float)(sf::VideoMode::getDesktopMode().width*H_WINDOW);
+		ratio = 1 - ratio;
 		window.create(sf::VideoMode::getDesktopMode(), WINDOW_NAME, sf::Style::Fullscreen);
 		viewGame.reset(sf::FloatRect(0, 0, L_WINDOW, H_WINDOW));
-		viewGame.setViewport(sf::FloatRect(0, 0, 1.f, 1.f));
+		viewGame.setViewport(sf::FloatRect(ratio/2, 0, 1.f - ratio, 1.f));
 		window.setView(viewGame);
 		isFullscreen = true;
 	}

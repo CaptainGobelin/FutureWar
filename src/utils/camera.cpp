@@ -11,7 +11,9 @@ Camera::Camera(Point2D position) {
 
 bool Camera::move(Point2D offset) {
 	//TODO check collision
-	if (anim.empty())
-		anim.push_back(new AnimPosition(&position, Point2D::add(position, offset), CAMERA_SPEED));
+	if (anim.empty()) {
+		goalPos.add(offset);
+		anim.push_back(new AnimPosition(&position, goalPos, CAMERA_SPEED));
+	}
 	return true;
 }
