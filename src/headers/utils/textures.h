@@ -15,6 +15,8 @@ class Textures {
 		static sf::Texture texturesMap;
 		static sf::Texture texturesInterface;
 
+	private:
+		static void loadFromImage(sf::Texture *texture, std::string path);
 };
 
 #endif
