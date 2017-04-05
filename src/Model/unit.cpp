@@ -34,14 +34,14 @@ void Unit::move(Cell *c, bool animate) {
 }
 
 void Unit::movementAnimation(Cell *c) {
-	anim.push_back(new AnimPosition(&absolutePos, Point2D::cross(c->getPosition(), CELL_SIZE), UNITS_SPEED));
+	anim.push_back(new AnimPosition(&absolutePos, Point2D::cross(c->getPosition(), CELL_SIZE), UNITS_SPEED, false));
 }
 
 void Unit::shakingAnimation() {
-	anim.push_back(new AnimPosition(&absolutePos, Point2D::substract(absolutePos, 2), UNITS_SPEED/2));
-	anim.push_back(new AnimPosition(&absolutePos, Point2D::add(absolutePos, 2), UNITS_SPEED/2));
-	anim.push_back(new AnimPosition(&absolutePos, Point2D::substract(absolutePos, 2), UNITS_SPEED/2));
-	anim.push_back(new AnimPosition(&absolutePos, absolutePos, UNITS_SPEED/2));
+	anim.push_back(new AnimPosition(&absolutePos, Point2D::substract(absolutePos, 2), UNITS_SPEED/2, false));
+	anim.push_back(new AnimPosition(&absolutePos, Point2D::add(absolutePos, 2), UNITS_SPEED/2, false));
+	anim.push_back(new AnimPosition(&absolutePos, Point2D::substract(absolutePos, 2), UNITS_SPEED/2, false));
+	anim.push_back(new AnimPosition(&absolutePos, absolutePos, UNITS_SPEED/2, false));
 }
 
 void Unit::newTurn() {

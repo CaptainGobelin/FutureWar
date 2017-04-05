@@ -4,8 +4,7 @@ Effect::Effect(int effectInfo, Point2D position) : Drawable(EFFECTS_LAYER) {
 	this->position = position;
 	sprite = new sf::Sprite();
 	effectFactory(effectInfo);
-	anim.push_back(new AnimEffect(this));
-	effectsController.push_back(this);
+	anim.push_back(new AnimEffect(this, true));
 }
 
 Effect::~Effect() {
@@ -27,18 +26,10 @@ bool Effect::render(Camera *camera) {
 	sf::Vector2f position(xPos, yPos);
 	setScreenPosition(position);
 	sprite->setPosition(position);
-	if (anim.empty())
+	if (anim.empty()) {
+		toDestroy = true;
 		return true;
+	}
 	addRender(sprite, false);
 	return false;
-}
-
-void Effect::cleanEffects() {
-	std::list<Effect*>::iterator it;
-	for (it=effectsController.begin(); it!=effectsController.end(); it++) {
-		if ((*it)->anim.empty()) {
-			delete *it;
-			it = effectsController.erase(it);
-		}
-	}
 }

@@ -13,7 +13,7 @@ bool Camera::move(Point2D offset) {
 	//TODO check collision
 	if (anim.empty()) {
 		goalPos.add(offset);
-		anim.push_back(new AnimPosition(&position, goalPos, CAMERA_SPEED));
+		anim.push_back(new AnimPosition(&position, goalPos, CAMERA_SPEED, false));
 	}
 	return true;
 }

@@ -13,10 +13,10 @@ class Effect;
 
 class AnimEffect : public Animation {
 	public:
-		AnimEffect(Effect *effect);
+		AnimEffect(Effect *effect, bool stackNext);
 		~AnimEffect();
 
-		virtual bool step();
+		virtual void step();
 		
 	private:
 		Effect *effect;

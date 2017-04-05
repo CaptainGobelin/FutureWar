@@ -9,13 +9,14 @@
 #include "../GUI/drawable.h"
 #include "animable.h"
 #include "animEffect.h"
+#include "destroyable.h"
 
 //xTile, yTile, frames, duration
 static const int effects[1][4] = {
 	{0, 0, 12, 16}
 };
 
-class Effect : public Drawable, public Animable {
+class Effect : public Drawable, public Animable, public Destroyable {
 	public:
 		Effect(int unitInfo, Point2D position);
 		~Effect();
@@ -27,9 +28,6 @@ class Effect : public Drawable, public Animable {
 		const int &getYTile() const {return yTile;}
 
 		virtual bool render(Camera *camera);
-
-		static std::list<Effect*> effectsController;
-		static void cleanEffects();
 
 		sf::Sprite *sprite;
 		

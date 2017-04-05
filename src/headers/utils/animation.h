@@ -6,17 +6,19 @@
 
 class Animation {
 	public:
-		Animation(int speed);
+		Animation(int speed, bool stackNext);
 		virtual ~Animation();
 		const bool &isOver() const {return over;}
+		const bool &toStackNext() const {return stackNext;}
 		void cut();
 
-		virtual bool step() = 0;
+		virtual void step() = 0;
 		
 	protected:
 		bool over;
 		int speed;
 		int stepCount;
+		bool stackNext;
 };
 
 #endif

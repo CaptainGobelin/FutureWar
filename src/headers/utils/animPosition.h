@@ -11,10 +11,10 @@ class Camera;
 
 class AnimPosition : public Animation {
 	public:
-		AnimPosition(Point2D *position, Point2D goalPos, int speed);
+		AnimPosition(Point2D *position, Point2D goalPos, int speed, bool stackNext);
 		~AnimPosition();
 
-		virtual bool step();
+		virtual void step();
 		
 	private:
 		Point2D startPos;

@@ -12,31 +12,26 @@ Animable::~Animable() {
 	animations.remove(this);
 }
 
-bool Animable::computeAnimations() {
-	bool result = false;
+void Animable::computeAnimations() {
 	std::list<Animable*>::iterator it;
 	for (it=animations.begin(); it!=animations.end(); ++it) {
-		bool test = (*it)->step();
-		result = result || test;
+		(*it)->step();
 	}
-	return result;
 }
 
-bool Animable::step() {
+void Animable::step() {
 	if (anim.empty())
-		return true;
-	/*std::list<Animation*>::iterator it;
+		return;
+	std::list<Animation*>::iterator it;
 	for (it=anim.begin(); it!=anim.end(); it++) {
 		(*it)->step();
+		if (!(*it)->toStackNext())
+			break;
+	}
+	for (it=anim.begin(); it!=anim.end(); it++) {
 		if ((*it)->isOver()) {
 			delete *it;
 			it = anim.erase(it);
 		}
-	}*/
-	(*anim.begin())->step();
-	if ((*anim.begin())->isOver()) {
-		delete *anim.begin();
-		anim.pop_front();
 	}
-	return anim.empty();
 }
