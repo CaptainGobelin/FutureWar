@@ -6,6 +6,8 @@ void Textures::loadTextures(const char *path) {
 	loadFromImage(&texturesEffects, path+(std::string)"sprites/effects_textures.png");
 	loadFromImage(&texturesMap, path+(std::string)"sprites/terrain_textures.png");
 	loadFromImage(&texturesInterface, path+(std::string)"int/interface_textures.png");
+	
+	normalFont.loadFromFile((std::string)FONT_PATH+"nes.ttf");
 }
 
 void Textures::loadFromImage(sf::Texture *texture, std::string path) {

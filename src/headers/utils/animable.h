@@ -12,6 +12,7 @@ class Animable {
 		~Animable();
 
 		virtual void step();
+		virtual void addAnimation(Animation *a);
 
 		static std::list<Animable*> animations;
 		static void computeAnimations();

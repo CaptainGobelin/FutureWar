@@ -35,3 +35,7 @@ void Animable::step() {
 		}
 	}
 }
+
+void Animable::addAnimation(Animation *a) {
+	anim.push_back(a);
+}

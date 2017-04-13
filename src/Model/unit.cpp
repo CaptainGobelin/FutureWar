@@ -55,6 +55,10 @@ void Unit::attack(Cell *cell) {
 	new Effect(0, Point2D(x,y));
 	if (cell->unit != NULL)
 		cell->unit->shakingAnimation();
+	sf::Text *text = new sf::Text("6", Textures::normalFont, CELL_SIZE/3);
+	Sprite *dmgText = new Sprite(text, Point2D(x+1,y), EFFECTS_LAYER);
+	dmgText->addAnimation(new AnimPosition(&(dmgText->position), Point2D(x+1,y-0.5), 75, true));
+	dmgText->addAnimation(new AnimOpacity(text, 0, 75, false));
 }
 
 bool Unit::render(Camera *camera) {

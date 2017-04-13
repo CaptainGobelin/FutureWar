@@ -17,7 +17,6 @@ class Unit;
 class AStarAlgorithm {
 	public:
 		static std::vector<tuple<Cell*, int> > apply(Map *map, Unit *unit, Cell *start, Cell *end);
-
 		
 	private:
 

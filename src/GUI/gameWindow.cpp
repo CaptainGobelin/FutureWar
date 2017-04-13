@@ -18,6 +18,8 @@ void GameWindow::setOptions() {
 void GameWindow::switchFullscreen() {
 	if (isFullscreen) {
 		window.create(sf::VideoMode(L_WINDOW, H_WINDOW, 32), WINDOW_NAME);
+		window.setVerticalSyncEnabled(OptionsFile::vSync);
+		window.setFramerateLimit(OptionsFile::frameLimit);
 		viewGame.reset(sf::FloatRect(0, 0, L_WINDOW, H_WINDOW));
 		viewGame.setViewport(sf::FloatRect(0, 0, 1.f, 1.f));
 		window.setView(viewGame);
@@ -28,6 +30,8 @@ void GameWindow::switchFullscreen() {
 		ratio /= (float)(sf::VideoMode::getDesktopMode().width*H_WINDOW);
 		ratio = 1 - ratio;
 		window.create(sf::VideoMode::getDesktopMode(), WINDOW_NAME, sf::Style::Fullscreen);
+		window.setVerticalSyncEnabled(OptionsFile::vSync);
+		window.setFramerateLimit(OptionsFile::frameLimit);
 		viewGame.reset(sf::FloatRect(0, 0, L_WINDOW, H_WINDOW));
 		viewGame.setViewport(sf::FloatRect(ratio/2, 0, 1.f - ratio, 1.f));
 		window.setView(viewGame);

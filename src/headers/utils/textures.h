@@ -14,6 +14,7 @@ class Textures {
 		static sf::Texture texturesEffects;
 		static sf::Texture texturesMap;
 		static sf::Texture texturesInterface;
+		static sf::Font normalFont;
 
 	private:
 		static void loadFromImage(sf::Texture *texture, std::string path);

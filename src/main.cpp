@@ -27,6 +27,8 @@ sf::Texture Textures::texturesEffects;
 sf::Texture Textures::texturesMap;
 sf::Texture Textures::texturesInterface;
 
+sf::Font Textures::normalFont;
+
 int main(int argc, char *argv[]) {
 	//Initialize game
 	GameController game;

@@ -18,6 +18,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <list>
+#include <set>
 #include <algorithm>
 #include <cmath>
 #include <time.h>
